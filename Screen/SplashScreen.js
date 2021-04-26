@@ -20,6 +20,7 @@ const SplashScreen = ({navigation}) => {
             setAnimating(false);
             
             AsyncStorage.getItem('authorization').then((value) => {
+                console.log(value)
                 navigation.replace(
                     value === null ? 'Auth' : 'DrawerNavigationRoutes'
                 )

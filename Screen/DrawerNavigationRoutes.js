@@ -14,7 +14,7 @@ import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-//  홈 화면 stack
+//  header 홈 화면 stack
 const homeScreenStack = ({navigation}) => {
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
@@ -39,7 +39,7 @@ const homeScreenStack = ({navigation}) => {
     );
 };
 
-// 설정 화면 stack
+// header 설정 화면 stack
 const settingScreenStack = ({navigation}) => {
     return (
         <Stack.Navigator
@@ -68,7 +68,7 @@ const settingScreenStack = ({navigation}) => {
     );
 };
 
-// drawer 
+// drawer (사이드 메뉴바)
 const DrawerNavigatorRoutes = (props) => {
     return (
         <Drawer.Navigator

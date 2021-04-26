@@ -22,44 +22,42 @@ const RegisterScreen = (props) => {
     const [errortext, setErrortext] = useState('');
     const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
-    const passwordInputRef = createRef();
     const nameInputRef = createRef();
+    const passwordInputRef = createRef();
 
-    const handleSubmit = () => {
+    const handleSubmitButton = () => {
         setErrortext('');
-        if(!userName) {
-            alert('이름을 입력해주세요.')
+        if (!userName) {
+            alert('이름을 입력해주세요.');
             return;
         }
-        if(!userEmail) {
-            alert('이메일을 입력해주세요.')
+        if (!userEmail) {
+            alert('이메일을 입력해주세요.');
             return;
         }
-        if(!userPassword) {
-            alert('비밀번호를 입력해주세요.')
+        if (!userPassword) {
+            alert('비밀번호를 입력해주세요.');
             return;
         }
+      //Show Loader
         setLoading(true);
-
-        var userData = {
+        var dataToSend = {
             user_name: userName,
             user_email: userEmail,
-            user_password: userPassword
+            user_password: userPassword,
         };
-
-        var formbody = [];
-
-        for(let key in userData) {
+        var formBody = [];
+        for (var key in dataToSend) {
             var encodedKey = encodeURIComponent(key);
-            var encodedValue = encodeURIComponent(userData[key]);
-            formbody.push(encodedKey + '=' + encodedValue);
+            var encodedValue = encodeURIComponent(dataToSend[key]);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
-        formbody = formbody.join('&');
+        formBody = formBody.join('&');
 
         // node서버로 보내어 결과값 받아오기
         fetch('http://192.168.2.110:3001/user/create',  {
             method: 'POST',
-            body: formbody,
+            body: formBody,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
@@ -141,7 +139,7 @@ const RegisterScreen = (props) => {
                         style={styles.inputStyle}
                         onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                         underlineColorAndroid="#f000"
-                        placeholder="Email"
+                        placeholder="이메일"
                         placeholderTextColor="#8b9cb5"
                         autoCapitalize="sentences"
                         returnKeyType="next"
@@ -156,10 +154,11 @@ const RegisterScreen = (props) => {
                         style={styles.inputStyle}
                         onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                         underlineColorAndroid="#f000"
-                        placeholder="Password"
+                        placeholder="비밀번호"
                         placeholderTextColor="#8b9cb5"
                         autoCapitalize="sentences"
                         returnKeyType="next"
+                        secureTextEntry={true}
                         onSubmitEditing={ () =>
                             nameInputRef.current && nameInputRef.current.focus()
                         }
@@ -171,7 +170,7 @@ const RegisterScreen = (props) => {
                             style={styles.inputStyle}
                             onChangeText={(UserName) => setUserName(UserName)}
                             underlineColorAndroid="#f000"
-                            placeholder="Name"
+                            placeholder="이름"
                             placeholderTextColor="#8b9cb5"
                             autoCapitalize="sentences"
                             returnKeyType="next"
@@ -187,7 +186,7 @@ const RegisterScreen = (props) => {
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     activeOpacity={0.5}
-                    onPress={handleSubmit}>
+                    onPress={handleSubmitButton}>
                     <Text style={styles.buttonTextStyle}>회원가입</Text>
                 </TouchableOpacity>
                 <Text 
@@ -199,7 +198,7 @@ const RegisterScreen = (props) => {
             </ScrollView> 
         </View>
     );  
-}
+};
 
 export default RegisterScreen;
 

@@ -10,31 +10,27 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+AsyncStorage.getItem('user_name').then((value) => {
+});
 
 const CustomSidebarMenu = (props) => {
-    const [userName, setUserName] = useState('');
-
-    AsyncStorage.getItem('user_name').then((value) => {
-        setUserName(value);
-    });
-
-    return (
-        <View style={stylesSidebar.sideMenuContainer}>
-            <View style={stylesSidebar.profileHeader}>
-                <View style={stylesSidebar.profileHeaderPicCircle}>
-                    <Text style={{fontSize: 25, color: '#307ecc'}}>
-                        {userName.charAt(0)}
+        return (
+            <View style={stylesSidebar.sideMenuContainer}>
+                <View style={stylesSidebar.profileHeader}>
+                    <View style={stylesSidebar.profileHeaderPicCircle}>
+                        <Text style={{fontSize: 25, color: '#307ecc'}}>
+                            {"사용자이름".charAt(0)}
+                        </Text>
+                    </View>
+                    <Text style={stylesSidebar.profileHeaderText}>
+                        {"사용자이름"}
                     </Text>
                 </View>
-                <Text style={stylesSidebar.profileHeaderText}>
-                    {userName}
-                </Text>
-            </View>
-            <View style={stylesSidebar.profileHeaderLine} />
-
-            <DrawerContentScrollView {...props}>
-                <DrawerItemList {...props} />
-                <DrawerItem
+                <View style={stylesSidebar.profileHeaderLine} />
+    
+                <DrawerContentScrollView {...props}>
+                    <DrawerItemList {...props} />
+                    <DrawerItem
                     label={({color}) => 
                         <Text style={{color: '#d8d8d8'}}>
                             로그아웃
@@ -64,9 +60,9 @@ const CustomSidebarMenu = (props) => {
                         );
                     }}
                 />
-            </DrawerContentScrollView>
-        </View>
-    );
+                </DrawerContentScrollView>
+            </View>
+        );
 };
 
 export default CustomSidebarMenu;
