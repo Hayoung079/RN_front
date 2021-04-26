@@ -1,6 +1,6 @@
 // Import React and Component
 import React from 'react';
-import {View, Text, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
@@ -10,18 +10,24 @@ const HomeScreen = () => {
 
     return (
         <ScrollView style={{flex: 1}}>
-            <View style={styles.headView}>
-                <View style={{flex: 1, flexDirection: 'column'}}>
+            <View style={styles.flex_row}>
+                <View style={styles.flex_column}>
                     <Text style={styles.headTitle}>{"user_name"}님,{"\n"}안녕하세요.</Text>
                     <TouchableOpacity style={styles.headButton}>
                         <Text style={styles.buttonText}>내 주소 보기</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <Image 
-                 /> 오른쪽에 이미지 넣기 */}
+                <Image 
+                    source={require('../../Image/hello.png')} 
+                    style={{
+                        width: '50%',
+                        height: 100,
+                        resizeMode: 'contain',
+                        marginTop: 30,
+                    }}/> 
             </View>
 
-            <View style={styles.myTokenView}>
+            <View style={styles.flex_column}>
                 <View style={styles.flex_row}>
                     <Text style={styles.tokenTitle}>나의 토큰</Text>
                     <TouchableOpacity style={{paddingLeft: 250}}>
@@ -34,7 +40,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.tokenItems}>
                     <Text>플러스 이미지</Text>
-                    <Text style={{paddingLeft: 180}}>토큰을 추가하세요.</Text>
+                    <Text style={{paddingLeft: 160}}>토큰을 추가하세요.</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.tokenButton}>
                     <Text style={styles.buttonText}>토큰 보내기</Text>
@@ -50,13 +56,13 @@ const HomeScreen = () => {
                 </View>
                 <View style={styles.flex_row}>
                     <TouchableOpacity style={styles.cardItems}>
-                        <Text style={styles.buttonText}>카드1</Text>
+                        <Text style={{color: 'black', alignSelf:'center', fontSize: 16}}>카드1</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.cardItems}>
-                        <Text style={styles.buttonText}>카드2</Text>
+                        <Text style={{color: 'black', alignSelf:'center', fontSize: 16}}>카드2</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.cardItems}>
-                        <Text style={styles.buttonText}>카드3</Text>
+                        <Text style={{color: 'black', alignSelf:'center', fontSize: 16}}>카드3</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -67,9 +73,20 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    headView: {
-        flex: 3,
-        flexDirection: 'column',
+    flex_row: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row', 
+        justifyContent: 'center',
+        alignSelf: 'center',
+        padding: 10,
+    },
+    flex_column: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'column', 
+        justifyContent: 'center',
+        alignSelf: 'center'
     },
     myTokenView: {
         flex: 1,
@@ -89,11 +106,10 @@ const styles = StyleSheet.create({
     },
     headButton: {
         height: 40,
+        width: '100%',
         backgroundColor: 'blue',
         borderRadius: 30,
-        borderStyle: 'solid',
         marginLeft: 15, 
-        marginRight: 255,
         marginBottom: 45,
     },
     tokenTitle: {
@@ -102,18 +118,16 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
     },
-    tokenItems: {
-        flex: 2, 
+    tokenItems: { 
         flexDirection:'row',
         alignSelf: 'center',
         justifyContent: 'center',
-        backgroundColor: '#e8e8e8',
         height: 60,
         width: '95%',
         marginTop: 5,
         marginHorizontal: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 10,
+        padding: 10,
+        backgroundColor: '#e8e8e8',
     },
     tokenButton: {
         marginTop: 5,
@@ -135,21 +149,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonText: {
-        color: 'black',
+        color: 'white',
         alignSelf: 'center',
         paddingVertical: 8,
         fontSize: 16,
     },
-    flex_row: {
-        // flex: 1, 
-        flexDirection: 'row', 
-        justifyContent: 'center',
-        alignSelf: 'center'
-    },
-    flex_column: {
-        // flex: 1, 
-        flexDirection: 'column', 
-        justifyContent: 'center',
-        alignSelf: 'center'
-    }
 });

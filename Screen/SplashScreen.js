@@ -22,7 +22,7 @@ const SplashScreen = ({navigation}) => {
             AsyncStorage.getItem('authorization').then((value) => {
                 console.log(value)
                 navigation.replace(
-                    value === null ? 'Auth' : 'DrawerNavigationRoutes'
+                    value === null ? 'DrawerNavigationRoutes' : 'DrawerNavigationRoutes'
                 )
 
                 fetch('http://192.168.2.110:3001/user/auth', {
