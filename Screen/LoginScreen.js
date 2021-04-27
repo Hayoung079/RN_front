@@ -46,8 +46,10 @@ const LoginScreen = ({navigation}) => {
         }
         formBody = formBody.join('&');
 
-        // node서버로 보내어 결과값 받아오기
-        fetch('http://192.168.2.110:3001/user/login', {
+        // 서버로 보내어 결과값 받아오기
+        // 회사 : 192.168.2.110
+        // 집: 172.22.192.1
+        fetch('http://172.22.192.1:3001/user/login', {
             method: 'POST',
             body: formBody,
             headers: {

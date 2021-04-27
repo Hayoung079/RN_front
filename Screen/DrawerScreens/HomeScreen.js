@@ -1,19 +1,33 @@
 // Import React and Component
-import React from 'react';
-import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, { useState } from 'react';
+import {
+    View, 
+    Text, 
+    ScrollView, 
+    StyleSheet, 
+    TouchableOpacity,
+    Image, 
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import ShowAddress from '../Components/ShowAddressModal';
 
 const HomeScreen = () => {
     AsyncStorage.getItem('user_name').then((value) => {
-        
+
     });
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <ScrollView style={{flex: 1}}>
             <View style={styles.flex_row}>
                 <View style={styles.flex_column}>
                     <Text style={styles.headTitle}>{"user_name"}님,{"\n"}안녕하세요.</Text>
-                    <TouchableOpacity style={styles.headButton}>
+                    <ShowAddress/>
+                    <TouchableOpacity 
+                        style={styles.headButton}
+                        onPress={()=>setModalVisible(true)}>
                         <Text style={styles.buttonText}>내 주소 보기</Text>
                     </TouchableOpacity>
                 </View>

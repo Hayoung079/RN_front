@@ -25,7 +25,10 @@ const SplashScreen = ({navigation}) => {
                     value === null ? 'DrawerNavigationRoutes' : 'DrawerNavigationRoutes'
                 )
 
-                fetch('http://192.168.2.110:3001/user/auth', {
+                // 서버로 보내어 결과값 받아오기
+                // 회사 : 192.168.2.110
+                // 집: 172.22.192.1
+                fetch('http://172.22.192.1:3001/user/auth', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
