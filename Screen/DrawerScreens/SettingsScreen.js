@@ -1,49 +1,30 @@
 // Import React and Component
 import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheets} from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen = () => {
-    return (
-        <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1, padding: 16}}>
-                <View
-                    style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Text
-                        style={{
-                            fontSize: 20,
-                            textAlign: 'center',
-                            marginBottom: 16,
-                        }}
-                    >
-                        설정화면 입니다.
-                    </Text>
-                </View>
-                <Text
-                    style={{
-                        fontSize: 18,
-                        textAlign: 'center',
-                        color: 'grey',
-                    }}
-                >
-                    안녕하세요
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        textAlign: 'center',
-                        color: 'grey',
-                    }}
-                >
-                    footer
-                </Text>
+    return (    
+        <View>
+            <View>
+                <Text>개인 설정</Text>
             </View>
-        </SafeAreaView>
+            <View>
+                <Text>비밀번호 변경</Text>
+            </View>
+            <View>
+                <Text>지갑 만들기</Text>
+            </View>
+            <View>
+                <Text>지갑 연결</Text>
+            </View>
+        </View>
     );
 };
 
 export default SettingsScreen;
+
+const styles = StyleSheet.create({
+
+})

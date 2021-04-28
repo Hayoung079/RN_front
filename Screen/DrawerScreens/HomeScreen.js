@@ -8,28 +8,35 @@ import {
     TouchableOpacity,
     Image, 
 } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import ShowAddress from '../Components/ShowAddressModal';
+import ModalComponent from '../Components/Modal';
+import ShowAddressModal from '../Components/ShowAddressModal';
 
 const HomeScreen = () => {
     AsyncStorage.getItem('user_name').then((value) => {
-
+        console.log(value)
     });
-
+    
     const [modalVisible, setModalVisible] = useState(false);
+    const openModal = () => {
+        setModalVisible((prev) => !prev)
+    };
 
     return (
         <ScrollView style={{flex: 1}}>
             <View style={styles.flex_row}>
                 <View style={styles.flex_column}>
                     <Text style={styles.headTitle}>{"user_name"}님,{"\n"}안녕하세요.</Text>
-                    <ShowAddress/>
                     <TouchableOpacity 
                         style={styles.headButton}
-                        onPress={()=>setModalVisible(true)}>
+                        onPress={openModal}>
                         <Text style={styles.buttonText}>내 주소 보기</Text>
                     </TouchableOpacity>
+                    <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
+                        <ShowAddressModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                    </ModalComponent>
                 </View>
                 <Image 
                     source={require('../../Image/hello.png')} 
