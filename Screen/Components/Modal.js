@@ -31,10 +31,9 @@ export default ModalComponent;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // alignSelf: 'center',
-        // justifyContent: 'center',
     },
     blankView: {
+        position: 'relative',
         alignSelf: 'center',
         justifyContent: 'center',
         width: '100%',
@@ -43,11 +42,13 @@ const styles = StyleSheet.create({
         opacity: 0.8,
     },  
     modalContainer: {
+        position: 'relative',
         flexDirection: 'column',
         alignSelf: 'center',
         justifyContent: 'center',
         marginVertical: 20,
         width: '80%',
+        height: '70%',
         backgroundColor: 'white',
         borderRadius: 10,
     },

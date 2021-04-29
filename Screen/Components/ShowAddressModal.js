@@ -8,26 +8,26 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
             {modalVisible ? (
                 <View style={styles.whiteBox}>
                     <View style={styles.head}>
-                    <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 80}}>내 주소</Text>
-                    <Icon
-                        name="closecircleo"
-                        style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
-                        onPress={() => {setModalVisible(!modalVisible)}}
-                    />
-                </View>
-                <Image 
-                    style={styles.QR} 
-                    source={require("../../Image/hello.png")}/>
-                <TouchableOpacity style={styles.addressButton}>
-                    <Text style={styles.buttonText}>{klaytnAddress}</Text>
-                </TouchableOpacity>
-                <View style={styles.notice}>
-                    <Text style={{color: 'red'}}>- 주의사항1</Text>
-                    <Text style={{color: 'gray'}}>- 주의사항2</Text>
-                    <TouchableOpacity style={styles.noticeButton}>
-                        <Text style={styles.buttonText}>안내버튼</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 80}}>내 주소</Text>
+                        <Icon
+                            name="closecircleo"
+                            style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
+                            onPress={() => {setModalVisible(!modalVisible)}}
+                        />
+                    </View>
+                    <Image 
+                        style={styles.QR} 
+                        source={require("../../Image/hello.png")}/>
+                    <TouchableOpacity style={styles.addressButton}>
+                        <Text style={styles.buttonText}>{klaytnAddress}</Text>
                     </TouchableOpacity>
-                </View>
+                    <View style={styles.notice}>
+                        <Text style={{color: 'red'}}>- 주의사항1</Text>
+                        <Text style={{color: 'gray'}}>- 주의사항2</Text>
+                        <TouchableOpacity style={styles.noticeButton}>
+                            <Text style={styles.buttonText}>안내버튼</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             ): null}
         </>
@@ -41,14 +41,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         width: '100%',
-        height: '80%',
+        height: '100%',
         backgroundColor: 'white',
         borderRadius: 10,
     },
     head: {
         flexDirection: 'row',
+        justifyContent: 'flex-end',
         padding: 10,
-        justifyContent: 'flex-end'
     },
     QR: {
         alignSelf: 'center',
@@ -61,13 +61,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         // height: 40,
         width: '90%',
+        height: '13%',
         backgroundColor: 'blue',
         borderRadius: 10,
     },
     buttonText: {
-        color: 'white',
         alignSelf: 'center',
-        paddingVertical: 8,
+        color: 'white',
+        padding: 8,
         fontSize: 15,
     },
     notice: {
