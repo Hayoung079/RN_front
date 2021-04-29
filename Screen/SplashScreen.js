@@ -16,9 +16,13 @@ const SplashScreen = ({navigation}) => {
     
 
     useEffect(() => {
+        // 로딩 3초
         setTimeout(() => {
             setAnimating(false);
+
+            // JWT 토큰이 만료되었는지 확인(30분),  
             
+            // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
             AsyncStorage.getItem('authorization').then((value) => {
                 
                 // 서버로 보내어 결과값 받아오기

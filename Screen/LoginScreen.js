@@ -15,7 +15,7 @@ import {
 // AsyncStorage : 웹에서 LocalStorage 같은 거
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// loader : 
+// loader : 로더(보이지 않음)
 import Loader from './Components/Loader';
 
 const LoginScreen = ({navigation}) => {
@@ -46,7 +46,7 @@ const LoginScreen = ({navigation}) => {
         }
         formBody = formBody.join('&');
 
-        // 서버로 보내어 결과값 받아오기
+        // 사용자 로그인 인증하기
         fetch('http://192.168.2.110:3001/user/login', {
             method: 'POST',
             body: formBody,
