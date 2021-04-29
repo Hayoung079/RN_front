@@ -6,7 +6,8 @@ import {
     ScrollView, 
     StyleSheet, 
     TouchableOpacity,
-    Image, 
+    Image,
+    Alert 
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,7 +27,7 @@ const HomeScreen = () => {
             user_name = await AsyncStorage.getItem('user_name')
             user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
 
-            if(user_name !== null) {
+            if(user_name !== null || user_klaytnAddress !== null) {
                 return  setklaytnAddress(user_klaytnAddress), setUserName(user_name);
             }
         }catch(error) {
@@ -42,23 +43,42 @@ const HomeScreen = () => {
         // 집: 172.22.192.1
         AsyncStorage.getItem('authorization').then((value) => {
             if(klaytnAddress == null) {
-                fetch('http://192.168.2.110:3001/kas/account', {
-                    method: 'POST',
-                    headers: {
-                        'authorization' : value,
-                    },
-                })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    if(responseJson.address) {
-                        console.log(responseJson.address)
-                        console.log('지갑생성 성공')
-                        // 스토리지에 저장
-                        AsyncStorage.setItem('klaytnAddress', responseJson.address)
-                        setModalVisible((prev) => !prev)
-                    }
-                })
-                .catch((err) => console.log(err))
+                Alert.alert(
+                    '지갑생성',
+                    '정말 지갑을 생성하시겠습니끼?',
+                    [
+                        {
+                            text: '취소',
+                            onPress: () => {
+                                return null;
+                            },
+                        },
+                        {
+                            text: '확인',
+                            onPress: () => {
+                                fetch('http://192.168.2.110:3001/kas/account', {
+                                    method: 'POST',
+                                    headers: {
+                                        'authorization' : value,
+                                    },
+                                })
+                                .then((response) => response.json())
+                                .then((responseJson) => {
+                                    if(responseJson.address) {
+                                        console.log(responseJson.address)
+                                        console.log('지갑생성 성공')
+                                        // 스토리지에 저장
+                                        AsyncStorage.setItem('klaytnAddress', responseJson.address)
+                                        setModalVisible((prev) => !prev)
+                                        Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
+                                    }
+                                })
+                                .catch((err) => console.log(err))
+                            },
+                        },
+                    ],
+                    {cancelable: false},
+                );
             }else {
                 fetch('http://192.168.2.110:3001/kas/account/address', {
                     method: 'GET',
