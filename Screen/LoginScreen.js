@@ -19,10 +19,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from './Components/Loader';
 
 const LoginScreen = ({navigation}) => {
-    const [userEmail, setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
+    const [userEmail, setUserEmail] = useState(null);
+    const [userPassword, setUserPassword] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [errortext, setErrortext] = useState('');
+    const [errortext, setErrortext] = useState(null);
 
     const passwordInputRef = createRef();
 
@@ -49,7 +49,7 @@ const LoginScreen = ({navigation}) => {
         // 서버로 보내어 결과값 받아오기
         // 회사 : 192.168.2.110
         // 집: 172.22.192.1
-        fetch('http://172.22.192.1:3001/user/login', {
+        fetch('http://192.168.2.110:3001/user/login', {
             method: 'POST',
             body: formBody,
             headers: {
@@ -66,11 +66,12 @@ const LoginScreen = ({navigation}) => {
             if(responseJson.authorization) {
                 // 사용자 정보 저장
                 AsyncStorage.setItem('authorization', responseJson.authorization);
+                //  resresponseJson.user_name으로 변경할 것!
                 AsyncStorage.setItem('user_name', '테스터');
                 navigation.replace('DrawerNavigationRoutes');
             }else {
-                setErrortext('로그인 실패');
-                console.log('이메일과 비밀번호를 확인해주세요.');
+                setErrortext('이메일과 비밀번호를 확인해주세요.');
+                console.log('로그인 실패');
             }
         })
         .catch((error) => {

@@ -20,21 +20,22 @@ const SplashScreen = ({navigation}) => {
             setAnimating(false);
             
             AsyncStorage.getItem('authorization').then((value) => {
-                console.log(value)
-                navigation.replace(
-                    value === null ? 'DrawerNavigationRoutes' : 'DrawerNavigationRoutes'
-                )
-
+                
                 // 서버로 보내어 결과값 받아오기
                 // 회사 : 192.168.2.110
                 // 집: 172.22.192.1
-                fetch('http://172.22.192.1:3001/user/auth', {
+                fetch('http://192.168.2.110:3001/user/auth', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
                     },
                 })
-                .then(() => console.log('자동로그인'))
+                .then(() => {
+                    console.log('사용자 인증 성공 - 자동로그인')
+                    navigation.replace(
+                        value === null ? 'Auth' : 'DrawerNavigationRoutes'
+                    )
+                })
                 .catch((err) => console.log(err))        
                 })  
         }, 3000);

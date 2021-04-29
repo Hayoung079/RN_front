@@ -10,59 +10,74 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-AsyncStorage.getItem('user_name').then((value) => {
-});
 
 const CustomSidebarMenu = (props) => {
-        return (
-            <View style={stylesSidebar.sideMenuContainer}>
-                <View style={stylesSidebar.profileHeader}>
-                    <View style={stylesSidebar.profileHeaderPicCircle}>
-                        <Text style={{fontSize: 25, color: '#307ecc'}}>
-                            {"사용자이름".charAt(0)}
-                        </Text>
-                    </View>
-                    <Text style={stylesSidebar.profileHeaderText}>
-                        {"사용자이름"}
+    // const [userName, setUserName] = useState(null);
+
+    // const GetUserName = async() => {
+    //     try {
+    //         user_name = await AsyncStorage.getItem('user_name')
+
+    //         if(user_name !== null) {
+    //             return setUserName(user_name);
+    //         }
+    //     } catch (error) {
+    //         console.log('사용자 이름 가져오기 실패 from storage')
+    //     }
+    // }
+    
+    // GetUserName();
+    // console.log(userName)
+
+    return (
+        <View style={stylesSidebar.sideMenuContainer}>
+            <View style={stylesSidebar.profileHeader}>
+                <View style={stylesSidebar.profileHeaderPicCircle}>
+                    <Text style={{fontSize: 25, color: '#307ecc'}}>
+                        {"userName".charAt(0)}
                     </Text>
                 </View>
-                <View style={stylesSidebar.profileHeaderLine} />
-    
-                <DrawerContentScrollView {...props}>
-                    <DrawerItemList {...props} />
-                    <DrawerItem
-                    label={({color}) => 
-                        <Text style={{color: '#d8d8d8'}}>
-                            로그아웃
-                        </Text>
-                    }
-                    onPress={() => {
-                        props.navigation.toggleDrawer();
-                        Alert.alert(
-                            '로그아웃',
-                            '정말 로그아웃 하시겠습니까?',
-                            [
-                                {
-                                    text: '취소',
-                                    onPress: () => {
-                                        return null;
-                                    },
-                                },
-                                {
-                                    text: '확인',
-                                    onPress: () => {
-                                        AsyncStorage.clear();
-                                        props.navigation.replace('Auth');
-                                    },
-                                },
-                            ],
-                            {cancelable: false},
-                        );
-                    }}
-                />
-                </DrawerContentScrollView>
+                <Text style={stylesSidebar.profileHeaderText}>
+                    {"userName"}
+                </Text>
             </View>
-        );
+            <View style={stylesSidebar.profileHeaderLine} />
+
+            <DrawerContentScrollView {...props}>
+                <DrawerItemList {...props} />
+                <DrawerItem
+                label={({color}) => 
+                    <Text style={{color: '#d8d8d8'}}>
+                        로그아웃
+                    </Text>
+                }
+                onPress={() => {
+                    props.navigation.toggleDrawer();
+                    Alert.alert(
+                        '로그아웃',
+                        '정말 로그아웃 하시겠습니까?',
+                        [
+                            {
+                                text: '취소',
+                                onPress: () => {
+                                    return null;
+                                },
+                            },
+                            {
+                                text: '확인',
+                                onPress: () => {
+                                    AsyncStorage.clear();
+                                    props.navigation.replace('Auth');
+                                },
+                            },
+                        ],
+                        {cancelable: false},
+                    );
+                }}
+            />
+            </DrawerContentScrollView>
+        </View>
+    );
 };
 
 export default CustomSidebarMenu;

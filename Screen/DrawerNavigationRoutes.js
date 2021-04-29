@@ -14,7 +14,7 @@ import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-//  header 홈 화면 stack
+// 홈 화면 stack
 const homeScreenStack = ({navigation}) => {
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
@@ -39,7 +39,7 @@ const homeScreenStack = ({navigation}) => {
     );
 };
 
-// header 설정 화면 stack
+// 설정 화면 stack
 const settingScreenStack = ({navigation}) => {
     return (
         <Stack.Navigator
@@ -68,6 +68,37 @@ const settingScreenStack = ({navigation}) => {
     );
 };
 
+
+// 공지사항 화면 stack
+const NotificationScreenStack = ({navigation}) => {
+    return (
+        <Stack.Navigator
+            initialRouteName="NotificationScreen"
+            screenOptions={{
+            headerLeft: () => (
+                <NavigationDrawerHeader navigationProps={navigation} />
+            ),
+            headerStyle: {
+                backgroundColor: '#307ecc', //Set Header color
+            },
+            headerTintColor: '#fff', //Set Header text color
+            headerTitleStyle: {
+                fontWeight: 'bold', //Set Header text style
+            },
+            }}
+        >
+            <Stack.Screen
+                name="NotificationScreen"
+                component={NotificationScreen}
+                options={{
+                    title: '공지사항', //Set Header Title
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
+
+
 // drawer (사이드 메뉴바)
 const DrawerNavigatorRoutes = (props) => {
     return (
@@ -90,6 +121,12 @@ const DrawerNavigatorRoutes = (props) => {
                 component={homeScreenStack}
             />
             
+            <Drawer.Screen
+                name="NotificationScreenStack"
+                options={{drawerLabel: '공지사항'}}
+                component={NotificationScreenStack}
+            />
+
             <Drawer.Screen
                 name="settingScreenStack"
                 options={{drawerLabel: '설정'}}

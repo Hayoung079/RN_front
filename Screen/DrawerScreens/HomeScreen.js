@@ -15,27 +15,82 @@ import ModalComponent from '../Components/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
 
 const HomeScreen = () => {
-    AsyncStorage.getItem('user_name').then((value) => {
-        console.log(value)
-    });
-    
     const [modalVisible, setModalVisible] = useState(false);
+    const [userName, setUserName] =useState(null);
+    const [klaytnAddress, setklaytnAddress] = useState(null);
+    
+    console.log(userName, klaytnAddress)
+    
+    const GetUserData = async() => {
+        try{
+            user_name = await AsyncStorage.getItem('user_name')
+            user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
+
+            if(user_name !== null) {
+                return  setklaytnAddress(user_klaytnAddress), setUserName(user_name);
+            }
+        }catch(error) {
+            console.log('사용자 정보 가져오기 실패 from storage')
+        }
+    }
+
+    GetUserData();
+
     const openModal = () => {
-        setModalVisible((prev) => !prev)
+        // 로그인 토큰을 API로 보내기
+        // 회사 : 192.168.2.110
+        // 집: 172.22.192.1
+        AsyncStorage.getItem('authorization').then((value) => {
+            if(klaytnAddress == null) {
+                fetch('http://192.168.2.110:3001/kas/account', {
+                    method: 'POST',
+                    headers: {
+                        'authorization' : value,
+                    },
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    if(responseJson.address) {
+                        console.log(responseJson.address)
+                        console.log('지갑생성 성공')
+                        // 스토리지에 저장
+                        AsyncStorage.setItem('klaytnAddress', responseJson.address)
+                        setModalVisible((prev) => !prev)
+                    }
+                })
+                .catch((err) => console.log(err))
+            }else {
+                fetch('http://192.168.2.110:3001/kas/account/address', {
+                    method: 'GET',
+                    headers: {
+                        'authorization' : value,
+                    },
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    if(responseJson.address) {
+                        console.log(responseJson.address)
+                        console.log('지갑 조회 성공')
+                        setModalVisible((prev) => !prev)
+                    }
+                })
+                .catch((err) => console.log(err))
+            }
+        })
     };
 
     return (
         <ScrollView style={{flex: 1}}>
             <View style={styles.flex_row}>
                 <View style={styles.flex_column}>
-                    <Text style={styles.headTitle}>{"user_name"}님,{"\n"}안녕하세요.</Text>
+                    <Text style={styles.headTitle}>{userName}님,{"\n"}안녕하세요.</Text>
                     <TouchableOpacity 
                         style={styles.headButton}
                         onPress={openModal}>
-                        <Text style={styles.buttonText}>내 주소 보기</Text>
+                        <Text style={styles.buttonText}>{klaytnAddress !== null ? '내 주소보기' : '지갑 만들기'}</Text>
                     </TouchableOpacity>
                     <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
-                        <ShowAddressModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                        <ShowAddressModal modalVisible={modalVisible} setModalVisible={setModalVisible} klaytnAddress={klaytnAddress}/>
                     </ModalComponent>
                 </View>
                 <Image 

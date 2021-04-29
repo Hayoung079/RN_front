@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const ShowAddressModal = ({modalVisible ,setModalVisible}) => { 
+const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => { 
     return (
         <>
             {modalVisible ? (
@@ -19,7 +19,7 @@ const ShowAddressModal = ({modalVisible ,setModalVisible}) => {
                     style={styles.QR} 
                     source={require("../../Image/hello.png")}/>
                 <TouchableOpacity style={styles.addressButton}>
-                    <Text style={styles.buttonText}>주소|복사</Text>
+                    <Text style={styles.buttonText}>{klaytnAddress}</Text>
                 </TouchableOpacity>
                 <View style={styles.notice}>
                     <Text style={{color: 'red'}}>- 주의사항1</Text>
@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
     addressButton: {
         marginTop: 10,
         alignSelf: 'center',
-        height: 40,
+        // height: 40,
         width: '90%',
         backgroundColor: 'blue',
-        borderRadius: 30,
+        borderRadius: 10,
     },
     buttonText: {
         color: 'white',

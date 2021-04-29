@@ -57,7 +57,7 @@ const RegisterScreen = (props) => {
         // 서버로 보내어 결과값 받아오기
         // 회사 : 192.168.2.110
         // 집: 172.22.192.1
-        fetch('http://172.22.192.1:3001/user/create',  {
+        fetch('http://192.168.2.110:3001/user/create',  {
             method: 'POST',
             body: formBody,
             headers: {
@@ -68,7 +68,6 @@ const RegisterScreen = (props) => {
         .then((responseJson) => {
             console.log(responseJson)
             setLoading(false);
-            console.log(responseJson)
 
             if(responseJson.user_email) {
                 setIsRegistraionSuccess(true);
