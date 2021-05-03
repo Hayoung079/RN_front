@@ -14,20 +14,12 @@ const UserInfoScreen = () => {
             <Content style={styles.content}>
                 <Thumbnail large source={require('../../Image/hello.png')}/>
                 <Text>{"userName"}</Text>
-                <Button block light onPress={setModalVisible(true)}>
+                <Button block light>
                     <Text>정보수정 하기</Text>
                 </Button>
                 <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
                     <UserInfoMadal modalVisible={modalVisible} setModalVisible={setModalVisible} />
                 </ModalComponent>
-                <Button block light onPress={
-                    Alert.alert(
-                        '회원 탈퇴',
-                        '정말 탈퇴하시겠습니까?'
-                    )
-                }>
-                    <Text>회원 탈퇴</Text>
-                </Button>
                 <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
                     <WithdrawalMadal modalVisible={modalVisible} setModalVisible={setModalVisible} />
                 </ModalComponent>
@@ -41,7 +33,5 @@ export default UserInfoScreen;
 const styles = StyleSheet.create({
     content: {
         flexDirection: 'column',
-        justifyContent : 'center',
-        alignContent: 'center' 
     },
 })
