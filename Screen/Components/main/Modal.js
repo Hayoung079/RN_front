@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Modal, StyleSheet} from 'react-native';
 
 const ModalComponent = ({ modalVisible, setModalVisible ,children }) => {
+    console.log(children)
     return(
         <>
         {modalVisible ? (

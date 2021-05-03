@@ -1,8 +1,8 @@
-import { Button, Container, Content, Form, Input, Item, Label, Text } from 'native-base';
-import React from 'react';
+import { Button, Container, Content, Form, Icon, Input, Item, Label, Text } from 'native-base';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
-const UserInfoMadal = ({modalVisible ,setModalVisible}) => {
+const UserInfoModal = ({modalVisible ,setModalVisible}) => {
     const [userName, setUserName] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
 
@@ -27,7 +27,7 @@ const UserInfoMadal = ({modalVisible ,setModalVisible}) => {
         formBody = formBody.join('&');
 
         // 사용자 정보 수정  API 연결
-        fetch('http://192.168.2.110:3001/user/update', {
+        fetch('http://192.168.219.100:3001/user/update', {
             method: 'PATCH',
             body: formBody,
             headers: {
@@ -48,11 +48,11 @@ const UserInfoMadal = ({modalVisible ,setModalVisible}) => {
                 <Container style={styles.whiteBox}>
                     <Content style={styles.content}>
                         <Icon
-                                type="AntDesign"
-                                name="closecircleo"
-                                style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
-                                onPress={() => {setModalVisible(!modalVisible)}}
-                            />
+                            type="AntDesign"
+                            name="closecircleo"
+                            style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
+                            onPress={() => {setModalVisible(!modalVisible)}}
+                        />
                         <Form onSubmit={ChangeUserInfo}>
                             <Item floatingLabel>
                                 <Label>이름</Label>
@@ -73,12 +73,11 @@ const UserInfoMadal = ({modalVisible ,setModalVisible}) => {
     )
 }
 
-export default UserInfoMadal;
+export default UserInfoModal;
 
 const styles = StyleSheet.create({
     whiteBox: {
         alignSelf: 'center',
-        justifyContent: 'center',
         width: '100%',
         height: '100%',
         backgroundColor: 'white',
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
     },
     content: {
         flexDirection: 'column',
-        justifyContent : 'center',
         alignContent: 'center' 
     },
 })

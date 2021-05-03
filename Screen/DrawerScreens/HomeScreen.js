@@ -54,7 +54,7 @@ const HomeScreen = () => {
                         {
                             text: '확인',
                             onPress: () => {
-                                fetch('http://192.168.2.110:3001/kas/account', {
+                                fetch('http://192.168.219.100:3001/kas/account', {
                                     method: 'POST',
                                     headers: {
                                         'authorization' : value,
@@ -103,7 +103,7 @@ const HomeScreen = () => {
                 <View style={styles.flex_column}>
                     <Text style={styles.headTitle}>{userName}님,{"\n"}안녕하세요.</Text>
                     <TouchableOpacity 
-                        style={styles.headButton}
+                        style={styles.modalButton}
                         onPress={openModal}>
                         <Text style={styles.buttonText}>{klaytnAddress !== null ? '내 주소보기' : '지갑 만들기'}</Text>
                     </TouchableOpacity>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
     },
-    headButton: {
+    modalButton: {
         height: 40,
         width: '100%',
         backgroundColor: 'blue',

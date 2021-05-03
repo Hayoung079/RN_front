@@ -9,7 +9,10 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from './HomeScreen';
 import CustomSidebarMenu from '../Components/CustomSidebarMenu';
 import DrawerHeader from '../Components/main/DrawerHeader';
-import SettingsNavigation from '../settingScreens/SettingsNavigation';
+import SettingsScreen from '../DrawerScreens/SettingsScreen';
+import UserInfoScreen from '../settingScreens/UserInfoScreen'
+import { TouchableOpacity } from 'react-native';
+import { Icon } from 'native-base';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,7 +45,46 @@ const homeScreenStack = ({navigation}) => {
 // 설정 화면 stack
 const settingScreenStack = ({navigation}) => {
     return (
-        <SettingsNavigation />
+        <Stack.Navigator 
+            initialRouteName="SettingsScreen"
+            screenOptions={{
+                headerLeft: () => (
+                    <DrawerHeader navigationProps={navigation} />
+                ),
+                headerStyle: {
+                    backgroundColor: '#307ecc', 
+                },
+                headerTintColor: '#fff', 
+                headerTitleStyle: {
+                    fontWeight: 'bold', 
+                },
+            }}
+        >
+            <Stack.Screen
+                name="SettingsScreen"
+                component={SettingsScreen}
+                options={{
+                    title: '설정', 
+                }}
+            />
+            <Stack.Screen
+                name="UserInfoScreen"
+                component={UserInfoScreen}
+                options={{
+                    title: '내 정보 설정', 
+                    headerLeft: () => (
+                        <DrawerHeader navigationProps={navigation} />
+                    ),
+                    headerStyle: {
+                        backgroundColor: '#307ecc', 
+                    },
+                    headerTintColor: '#fff', 
+                    headerTitleStyle: {
+                        fontWeight: 'bold', 
+                    },
+                }}
+            />
+        </Stack.Navigator>
     );
 };
 
