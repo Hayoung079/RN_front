@@ -21,30 +21,16 @@ const SplashScreen = ({navigation}) => {
         // 로딩 3초
         setTimeout(() => {
             setAnimating(false);  
-            
-            // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
-            AsyncStorage.getItem('authorization').then((value) => {
-                
-                navigation.replace(
-                    value === null ? 'Auth' : 'DrawerNavigationRoutes'
-                )
 
-                if(value !== null) {
-                    // 서버로 보내어 결과값 받아오기
-                    fetch('http://192.168.2.110:3001/user/auth', {
-                        method: 'GET',
-                        headers: {
-                            'authorization' : value,
-                        },
-                    })
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                        console.log(responseJson)
-                        console.log('사용자 인증 성공')
-                    })
-                    .catch((err) => console.log(err))        
-                }
-            })  
+            JWT_RERESH().then(()=>{
+                // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
+                AsyncStorage.getItem('authorization').then((value) => {
+                    console.log('storage-auth : ' + value)
+                    navigation.replace(
+                        value === null ? 'Auth' : 'DrawerNavigationRoutes'
+                    )
+                })  
+            })
         }, 3000);
     }, []);
 

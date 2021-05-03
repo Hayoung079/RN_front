@@ -66,7 +66,7 @@ const CustomSidebarMenu = (props) => {
                             {
                                 text: '확인',
                                 onPress: () => {
-                                    AsyncStorage.removeItem('user_name');
+                                    AsyncStorage.clear();
                                     props.navigation.replace('Auth');
                                 },
                             },

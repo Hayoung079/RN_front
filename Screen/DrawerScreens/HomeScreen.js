@@ -20,25 +20,24 @@ const HomeScreen = () => {
     const [userName, setUserName] =useState(null);
     const [klaytnAddress, setklaytnAddress] = useState(null);
     
-    console.log(userName, klaytnAddress)
-    
     const GetUserData = async() => {
-        try{
+        try {
             user_name = await AsyncStorage.getItem('user_name')
             user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
-
+            
             if(user_name !== null || user_klaytnAddress !== null) {
-                return  setklaytnAddress(user_klaytnAddress), setUserName(user_name);
+                setklaytnAddress(user_klaytnAddress); 
+                setUserName(user_name);
             }
-        }catch(error) {
-            console.log('사용자 정보 가져오기 실패 from storage')
+        } catch (error) {
+            console.log(error)
         }
-    }
-
+    }  
+    
     GetUserData();
+    console.log(`userName: ${userName}, klaytnAddress: ${klaytnAddress}`)
 
     const openModal = () => {
-
         // 로그인 토큰을 API로 보내기
         AsyncStorage.getItem('authorization').then((value) => {
             if(klaytnAddress == null) {
@@ -64,7 +63,7 @@ const HomeScreen = () => {
                                 .then((response) => response.json())
                                 .then((responseJson) => {
                                     if(responseJson.address) {
-                                        console.log(responseJson.address)
+                                        console.log('지갑 생성 : ' +responseJson.address)
                                         console.log('지갑생성 성공')
                                         // 스토리지에 저장
                                         AsyncStorage.setItem('klaytnAddress', responseJson.address)
@@ -88,7 +87,7 @@ const HomeScreen = () => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     if(responseJson.address) {
-                        console.log(responseJson.address)
+                        console.log('지갑 조회 : ' + responseJson.address)
                         console.log('지갑 조회 성공')
                         setModalVisible((prev) => !prev)
                     }

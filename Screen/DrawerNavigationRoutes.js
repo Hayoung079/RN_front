@@ -100,7 +100,7 @@ const NotificationScreenStack = ({navigation}) => {
 
 
 // drawer (사이드 메뉴바)
-const DrawerNavigatorRoutes = (props) => {
+const DrawerNavigatorRoutes = () => {
     return (
         <Drawer.Navigator
             drawerContentOptions={{
