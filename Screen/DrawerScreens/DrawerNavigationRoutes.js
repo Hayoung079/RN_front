@@ -6,10 +6,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Import Screens
-import HomeScreen from './DrawerScreens/HomeScreen';
-import SettingsScreen from './DrawerScreens/SettingsScreen';
-import CustomSidebarMenu from './Components/CustomSidebarMenu';
-import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
+import HomeScreen from './HomeScreen';
+import CustomSidebarMenu from '../Components/CustomSidebarMenu';
+import DrawerHeader from '../Components/main/DrawerHeader';
+import SettingsNavigation from '../settingScreens/SettingsNavigation';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -24,7 +24,7 @@ const homeScreenStack = ({navigation}) => {
                 options={{
                     title: '홈', 
                     headerLeft: () => (
-                    <NavigationDrawerHeader navigationProps={navigation} />
+                    <DrawerHeader navigationProps={navigation} />
                     ),
                     headerStyle: {
                         backgroundColor: '#307ecc', //Set Header color
@@ -42,29 +42,7 @@ const homeScreenStack = ({navigation}) => {
 // 설정 화면 stack
 const settingScreenStack = ({navigation}) => {
     return (
-        <Stack.Navigator
-            initialRouteName="SettingsScreen"
-            screenOptions={{
-            headerLeft: () => (
-                <NavigationDrawerHeader navigationProps={navigation} />
-            ),
-            headerStyle: {
-                backgroundColor: '#307ecc', //Set Header color
-            },
-            headerTintColor: '#fff', //Set Header text color
-            headerTitleStyle: {
-                fontWeight: 'bold', //Set Header text style
-            },
-            }}
-        >
-            <Stack.Screen
-                name="SettingsScreen"
-                component={SettingsScreen}
-                options={{
-                    title: '설정', //Set Header Title
-                }}
-            />
-        </Stack.Navigator>
+        <SettingsNavigation />
     );
 };
 
@@ -76,7 +54,7 @@ const NotificationScreenStack = ({navigation}) => {
             initialRouteName="NotificationScreen"
             screenOptions={{
             headerLeft: () => (
-                <NavigationDrawerHeader navigationProps={navigation} />
+                <DrawerHeader navigationProps={navigation} />
             ),
             headerStyle: {
                 backgroundColor: '#307ecc', //Set Header color

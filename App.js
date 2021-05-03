@@ -5,13 +5,14 @@ import 'react-native-gesture-handler';
 
 // navigator : 화면 간 전환 및 탐색 기록 관리 라이브러리
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, CreateStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 // 스크린
 import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
-import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
+import DrawerNavigationRoutes from './Screen/DrawerScreens/DrawerNavigationRoutes';
+import SettingsNavigarionRoutes from './Screen/settingScreens/SettingsNavigation';
 
 // Stack : 화면 전환시 이전 화면 현재화면 뒤에 쌓이는 것
 const Stack = createStackNavigator();
@@ -64,6 +65,10 @@ const App = () => {
           name="DrawerNavigationRoutes"
           component={DrawerNavigationRoutes}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SettingsNavigarionRoutes"
+          component={SettingsNavigarionRoutes}
         />
       </Stack.Navigator>
     </NavigationContainer>

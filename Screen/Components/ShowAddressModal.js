@@ -1,6 +1,6 @@
+import { Icon } from 'native-base';
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
 
 const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => { 
     return (
@@ -10,6 +10,7 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
                     <View style={styles.head}>
                         <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 80}}>내 주소</Text>
                         <Icon
+                            type="AntDesign"
                             name="closecircleo"
                             style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
                             onPress={() => {setModalVisible(!modalVisible)}}

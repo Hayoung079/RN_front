@@ -12,7 +12,7 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import ModalComponent from '../Components/Modal';
+import ModalComponent from '../Components/main/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
 
 const HomeScreen = () => {

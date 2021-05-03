@@ -3,7 +3,7 @@ import { Icon } from 'native-base';
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 
-const NavigationDrawerHeader = (props) => {
+const DrawerHeader = (props) => {
     const toggleDrawer = () => {
         props.navigationProps.toggleDrawer();
     };
@@ -12,7 +12,7 @@ const NavigationDrawerHeader = (props) => {
         <View style={{flexDirection: 'row'}}>
             <TouchableOpacity onPress={toggleDrawer}>
                 <Icon
-                    type='Feather'
+                    type='Entypo'
                     name='menu'
                     style={{width: 25, height: 25, marginLeft: 5, color: '#fff'}}
                 />
@@ -20,4 +20,4 @@ const NavigationDrawerHeader = (props) => {
         </View>
     );
 };
-export default NavigationDrawerHeader;
+export default DrawerHeader;

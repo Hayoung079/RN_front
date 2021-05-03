@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const JWT_RERESH = async () => {
+const JWT_Refresh = async () => {
     const JWT_EXPIRY_TIME = 1000 * 60 * 30 // 30분
     
     const GetAuthorization = () => {
@@ -41,4 +41,4 @@ const JWT_RERESH = async () => {
     SlientRefresh()
 }
 
-export default JWT_RERESH;
+export default JWT_Refresh;

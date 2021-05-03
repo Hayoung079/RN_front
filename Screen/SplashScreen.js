@@ -10,7 +10,7 @@ import {
 // AsyncStorage : 웹에서 LocalStorage 같은 거
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import JWT_RERESH from './JWT_Refresh'
+import JWT_Refresh from '../APIs/JWT_Refresh'
 
 const SplashScreen = ({navigation}) => {
     // ActivityIndicator animation 상태
@@ -22,7 +22,7 @@ const SplashScreen = ({navigation}) => {
         setTimeout(() => {
             setAnimating(false);  
 
-            JWT_RERESH().then(()=>{
+            JWT_Refresh().then(()=>{
                 // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
                 AsyncStorage.getItem('authorization').then((value) => {
                     console.log('storage-auth : ' + value)

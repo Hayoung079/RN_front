@@ -12,7 +12,7 @@ import {
     ScrollView,
 } from 'react-native';
 
-import Loader from './Components/Loader';
+import Loader from './Components/main/Loader';
 
 const RegisterScreen = (props) => {
     const [userName, setUserName] = useState('');
@@ -59,7 +59,7 @@ const RegisterScreen = (props) => {
             method: 'POST',
             body: formBody,
             headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
         })
         .then((response) => response.json())

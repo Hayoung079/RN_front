@@ -16,7 +16,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // loader : 로더(보이지 않음)
-import Loader from './Components/Loader';
+import Loader from './Components/main/Loader';
 
 const LoginScreen = ({navigation}) => {
     const [userEmail, setUserEmail] = useState(null);
@@ -52,7 +52,7 @@ const LoginScreen = ({navigation}) => {
             body: formBody,
             headers: {
                 'Content-Type' :
-                'application/json;charset=UTF-8',
+                'application/x-www-form-urlencoded;charset=UTF-8',
             },
         })
         .then((response) => response.json())
