@@ -59,7 +59,6 @@ const LoginScreen = ({navigation}) => {
         .then((responseJson) => {
             setLoading(false);
             console.log(responseJson);
-
             // 인증 토큰이 있으면
             if(responseJson.authorization) {
                 // 사용자 정보 저장

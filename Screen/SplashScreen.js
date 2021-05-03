@@ -10,6 +10,8 @@ import {
 // AsyncStorage : 웹에서 LocalStorage 같은 거
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import JWT_RERESH from './JWT_Refresh'
+
 const SplashScreen = ({navigation}) => {
     // ActivityIndicator animation 상태
     const [animating, setAnimating] = useState(true);
@@ -18,28 +20,31 @@ const SplashScreen = ({navigation}) => {
     useEffect(() => {
         // 로딩 3초
         setTimeout(() => {
-            setAnimating(false);
-
-            // JWT 토큰이 만료되었는지 확인(30분),  
+            setAnimating(false);  
             
             // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
             AsyncStorage.getItem('authorization').then((value) => {
                 
-                // 서버로 보내어 결과값 받아오기
-                fetch('http://192.168.2.110:3001/user/auth', {
-                    method: 'GET',
-                    headers: {
-                        'authorization' : value,
-                    },
-                })
-                .then(() => {
-                    console.log('사용자 인증 성공 - 자동로그인')
-                    navigation.replace(
-                        value === null ? 'Auth' : 'DrawerNavigationRoutes'
-                    )
-                })
-                .catch((err) => console.log(err))        
-                })  
+                navigation.replace(
+                    value === null ? 'Auth' : 'DrawerNavigationRoutes'
+                )
+
+                if(value !== null) {
+                    // 서버로 보내어 결과값 받아오기
+                    fetch('http://192.168.2.110:3001/user/auth', {
+                        method: 'GET',
+                        headers: {
+                            'authorization' : value,
+                        },
+                    })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        console.log(responseJson)
+                        console.log('사용자 인증 성공')
+                    })
+                    .catch((err) => console.log(err))        
+                }
+            })  
         }, 3000);
     }, []);
 

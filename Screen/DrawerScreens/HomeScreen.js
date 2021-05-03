@@ -38,9 +38,8 @@ const HomeScreen = () => {
     GetUserData();
 
     const openModal = () => {
+
         // 로그인 토큰을 API로 보내기
-        // 회사 : 192.168.2.110
-        // 집: 172.22.192.1
         AsyncStorage.getItem('authorization').then((value) => {
             if(klaytnAddress == null) {
                 Alert.alert(
