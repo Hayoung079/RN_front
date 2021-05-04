@@ -100,7 +100,9 @@ const HomeScreen = () => {
         <ScrollView style={{flex: 1}}>
             <View style={styles.flex_row}>
                 <View style={styles.flex_column}>
-                    <Text style={styles.headTitle}>{userName}님,{"\n"}안녕하세요.</Text>
+                    <Text style={styles.headTitle}>
+                        {userName !== null ? (`${userName}님,${"\n"}안녕하세요.`): "안녕하세요."}
+                    </Text>
                     <TouchableOpacity 
                         style={styles.modalButton}
                         onPress={openModal}>

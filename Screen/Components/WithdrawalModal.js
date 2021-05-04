@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import { Button, Form, Icon, Input, Item, Label, Text, View } from 'native-base';
 import React, {useState} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 
 const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
     const [userPassword, setUserPassword] = useState(null);
+    const navigation = useNavigation(); 
 
     //  사용자 비밀번호 인증하기
     const UserWithdrawal = () => {
@@ -20,6 +22,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             let encodedValue = encodeURIComponent(dataToSend[key]);
             formBody.push(encodedKey + '=' + encodedValue);
         }
+        formBody = formBody.join('&');
         
         AsyncStorage.getItem('authorization').then((value) => {
             fetch('http://192.168.2.110:3001/user/auth-password', {
@@ -33,12 +36,26 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('사용자 비밀번호 인증 성공')
                 console.log(responseJson)
+                if(responseJson === true) {
+                    console.log('사용자 비밀번호 인증 성공')
+                    // 회원 탈퇴 로직 성공시
+                    Alert.alert(
+                        '회원 탈퇴',
+                        '성공적으로 탈퇴되었습니다.',
+                        [{
+                            text: '확인',
+                            onPress: () => {
+                                navigation.navigate('HomeScreen');
+                                AsyncStorage.clear();
+                            }
+                        }]
+                    )
+                    setModalVisible(false)
+                }
             })
             .catch((error) => {
                 console.log(error)
-                // alert
                 Alert.alert(
                     '회원탈퇴',
                     '회원 탈퇴에 실패했습니다. 비밀번호를 확인해주세요.'
@@ -47,7 +64,6 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             })
         })
     }
-
 
     return(
         <>

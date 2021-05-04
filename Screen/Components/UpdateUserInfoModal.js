@@ -41,11 +41,12 @@ const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson === 1) {
-                    setModalVisible(false)
+                    console.log('사용자 정보 수정 성공')
                     Alert.alert(
                         '내 정보 수정',
                         '성공적으로 변경되었습니다.'
                     )
+                    setModalVisible(false)
                 }
             })
             .catch((error) => {
