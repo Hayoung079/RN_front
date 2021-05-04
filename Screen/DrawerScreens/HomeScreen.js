@@ -35,7 +35,6 @@ const HomeScreen = () => {
     }  
     
     GetUserData();
-    console.log(`userName: ${userName}, klaytnAddress: ${klaytnAddress}`)
 
     const openModal = () => {
         // 로그인 토큰을 API로 보내기

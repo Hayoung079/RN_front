@@ -3,16 +3,21 @@ import { Button, Form, Icon, Input, Item, Label, Text, View } from 'native-base'
 import React, {useState} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 
-const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
+const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
+    const [userName, setUserName] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
 
-    //  사용자 비밀번호 인증하기
-    const UserWithdrawal = () => {
+    const ChangeUserInfo = () => {
+        if (!userName) {
+            alert('이름을 입력해주세요.');
+            return;
+        }
         if (!userPassword) {
             alert('비밀번호를 입력해주세요.');
             return;
         }
-        let dataToSend = {user_password: userPassword};
+        
+        let dataToSend = {user_password: userPassword, user_name: userName};
         let formBody = [];
 
         for(let key in dataToSend) {
@@ -20,42 +25,43 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             let encodedValue = encodeURIComponent(dataToSend[key]);
             formBody.push(encodedKey + '=' + encodedValue);
         }
-        
+        formBody = formBody.join('&');
+
+        // 사용자 정보 수정  API 연결
         AsyncStorage.getItem('authorization').then((value) => {
-            fetch('http://192.168.2.110:3001/user/auth-password', {
-                method: 'POST',
-                body: formBody,
-                headers: {
-                    'authorization' : value,
-                    'Content-Type' :
-                    'application/x-www-form-urlencoded;charset=UTF-8',
-                },
+            fetch('http://192.168.2.110:3001/user/update', {
+            method: 'PATCH',
+            body: formBody,
+            headers: {
+                'authorization' : value,
+                'Content-Type' :
+                'application/x-www-form-urlencoded;charset=UTF-8',
+            },
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('사용자 비밀번호 인증 성공')
-                console.log(responseJson)
+                if(responseJson === 1) {
+                    setModalVisible(false)
+                    Alert.alert(
+                        '내 정보 수정',
+                        '성공적으로 변경되었습니다.'
+                    )
+                }
             })
             .catch((error) => {
                 console.log(error)
-                // alert
-                Alert.alert(
-                    '회원탈퇴',
-                    '회원 탈퇴에 실패했습니다. 비밀번호를 확인해주세요.'
-                )
-                setModalVisible(false);
             })
-        })
+        })      
     }
 
 
-    return(
+    return (
         <>
             {modalVisible ? (
                 <View style={styles.modalContainer}>
                     <View style={styles.whiteBox}>
-                        <View style={styles.head}>
-                            <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 60}}>회원 탈퇴</Text>
+                    <View style={styles.head}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 60}}>내 정보 수정</Text>
                             <Icon
                                 type="AntDesign"
                                 name="closecircleo"
@@ -65,27 +71,33 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                         </View>
                         <View style={styles.inputArea}>
                             <Form>
-                                <Item floatingLabel style={styles.inputBox}>
-                                    <Label>비밀번호를 입력해주세요.</Label>
-                                    <Input
-                                        secureTextEntry={true}
-                                        onChangeText={(userPassword) => setUserPassword(userPassword)} />
-                                </Item>
-                                <Button info 
+                                <View style={styles.inputBox}>
+                                    <Item floatingLabel>
+                                        <Label>이름</Label>
+                                        <Input onChangeText={(userName) => setUserName(userName)} />
+                                    </Item>
+                                    <Item floatingLabel style={{marginTop: 20}}>
+                                        <Label>비밀번호</Label>
+                                        <Input 
+                                            secureTextEntry={true}
+                                            onChangeText={(userPassword) => setUserPassword(userPassword)}/>
+                                    </Item>
+                                </View>
+                                <Button info
                                     style={styles.button}
-                                    onPress={UserWithdrawal}>
-                                    <Text style={{fontSize: 15}}>확인</Text>
+                                    onPress={ChangeUserInfo}>
+                                    <Text style={{fontSize: 15}}>수정</Text>
                                 </Button>
                             </Form>
                         </View>
                     </View>
                 </View>
-            ): null}
+            ) : null}
         </>
     )
 }
 
-export default WithdrawalModal;
+export default UpdateUserInfoModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -93,12 +105,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignSelf: 'center',
         justifyContent: 'center',
+        marginVertical: 20,
         width: '80%',
         height: 300,
         backgroundColor: 'white',
         borderRadius: 10,
     },
     whiteBox: {
+        alignSelf: 'center',
         width: '100%',
         height: 300,
         backgroundColor: 'white',
@@ -107,28 +121,28 @@ const styles = StyleSheet.create({
     head: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        padding: 10,
         width: '100%',
         height: 45,
-        padding: 10,
         borderRadius: 10,
         backgroundColor: 'lightgray',
     },
     inputArea: {
+        alignSelf: 'center',
+        justifyContent: 'center',
         paddingHorizontal: 10,
         width: '100%',
         height: '85%',
-        alignSelf: 'center',
-        justifyContent: 'center',
     },
     inputBox: {
+        alignSelf: 'center',
         width: '90%',
         height: '40%',
-        alignSelf: 'center',
     },
     button: {
         alignSelf:'center', 
         justifyContent: 'center', 
-        marginTop: 20, 
+        marginTop: 60, 
         width: 110,
         backgroundColor: 'blue', 
     },

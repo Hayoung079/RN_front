@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     addressButton: {
         marginTop: 10,
         alignSelf: 'center',
-        // height: 40,
         width: '90%',
         height: '13%',
         backgroundColor: 'blue',
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
     },
     notice: {
         alignSelf: 'center',
-        // backgroundColor: 'gray',
         width: '90%',
         fontSize: 10,
         marginTop: 20,

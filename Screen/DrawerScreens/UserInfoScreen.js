@@ -1,16 +1,42 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Container, Content, Text, Thumbnail } from 'native-base';
 import React, {useState, useRef} from 'react';
 import {Alert, StyleSheet} from 'react-native';
 
 import ModalComponent from '../Components/main/Modal';
-import UserInfoModal from '../Components/UserInfoModal';
+import UpdateUserInfoModal from '../Components/UpdateUserInfoModal';
 import WithdrawalModal from '../Components/WithdrawalModal';
 
 const UserInfoScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [clickedButton, setClikedButton] = useState(null);
+    const [userName, setUserName] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
     const updateButton = useRef();
     const withdrawalButton = useRef();
+
+    const GetUserInfo = () => {
+        return AsyncStorage.getItem('authorization').then((value) => {
+            if(value !== null) {
+                // 서버로 보내어 결과값 받아오기
+                fetch('http://192.168.2.110:3001/user/profile', {
+                    method: 'GET',
+                    headers: {
+                        'authorization' : value,
+                        'Content-Type' : 'application/x-www-form-urlencoded;charset=UTF-8',
+                    },
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    setUserEmail(responseJson.user_email);
+                    setUserName(responseJson.user_name);
+                })
+                .catch((err) => console.log(err))
+            }
+        })
+    }
+
+    GetUserInfo()
     
     return (
         <Container style={styles.container}>
@@ -20,7 +46,8 @@ const UserInfoScreen = () => {
                     source={require('../../Image/hello.png')} 
                     style={styles.thumbnail} 
                 />
-                <Text style={styles.userName}>{"userName"}</Text>
+                <Text style={styles.userInfo}>{`이메일 : ${userEmail}`}</Text>
+                <Text style={styles.userInfo}>{`이름 : ${userName}`}</Text>
                 <Button 
                     block light
                     style={styles.button}
@@ -64,7 +91,7 @@ const UserInfoScreen = () => {
                 </Button>
                 <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
                     {clickedButton === 'updateBtn' ? 
-                        (<UserInfoModal modalVisible={modalVisible} setModalVisible={setModalVisible} />): 
+                        (<UpdateUserInfoModal modalVisible={modalVisible} setModalVisible={setModalVisible} />): 
                         (<WithdrawalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />)}
                 </ModalComponent>
             </Content>
@@ -86,23 +113,23 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     thumbnail: {
+        alignSelf: 'center',
         borderWidth: 1,
         borderColor: 'gray',
-        alignItems: 'center',
     },
-    userName: {
+    userInfo: {
         marginTop: 10,
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
     },
     button: {
+        padding: 10,
         marginTop: 20,
         borderRadius: 10,
-        padding: 10,
-        
+        backgroundColor: 'blue'
     },
     buttonText: {
-        fontSize: 13,
+        fontSize: 16,
+        color: '#fff',
     },
 })
