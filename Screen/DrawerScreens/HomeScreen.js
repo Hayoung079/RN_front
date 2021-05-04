@@ -54,7 +54,7 @@ const HomeScreen = () => {
                         {
                             text: '확인',
                             onPress: () => {
-                                fetch('http://192.168.219.100:3001/kas/account', {
+                                fetch('http://192.168.2.110:3001/kas/account', {
                                     method: 'POST',
                                     headers: {
                                         'authorization' : value,

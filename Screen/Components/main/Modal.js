@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Modal, StyleSheet} from 'react-native';
 
 const ModalComponent = ({ modalVisible, setModalVisible ,children }) => {
-    console.log(children)
     return(
         <>
         {modalVisible ? (
@@ -16,9 +15,7 @@ const ModalComponent = ({ modalVisible, setModalVisible ,children }) => {
             >
                 <View style={styles.container}>
                     <View style={styles.blankView}>
-                        <View style={styles.modalContainer}>
                             {children}
-                        </View>
                     </View>
                 </View>
             </Modal>
@@ -42,15 +39,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#000000',
         opacity: 0.8,
     },  
-    modalContainer: {
-        position: 'relative',
-        flexDirection: 'column',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginVertical: 20,
-        width: '80%',
-        height: '70%',
-        backgroundColor: 'white',
-        borderRadius: 10,
-    },
 })

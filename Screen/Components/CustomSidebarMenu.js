@@ -1,5 +1,5 @@
 // Import React and Component
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
 
 import {
@@ -12,6 +12,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const CustomSidebarMenu = (props) => {
+    // const [userName, setUserName] = useState(null);
+
+    // const GetUserData = async() => {
+    //     try {
+    //         user_name = await AsyncStorage.getItem('user_name')
+
+    //         if(user_name !== null) return setUserName(user_name);
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // GetUserData();
+    // console.log(`user_name: ${userName}`)
+
     return (
         <View style={stylesSidebar.sideMenuContainer}>
             <View style={stylesSidebar.profileHeader}>

@@ -1,14 +1,17 @@
 import { Button, Container, Content, Text, Thumbnail } from 'native-base';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {Alert, StyleSheet} from 'react-native';
 
 import ModalComponent from '../Components/main/Modal';
 import UserInfoModal from '../Components/UserInfoModal';
-import WithdrawalModal from '../Components/WithdrawalMadal';
+import WithdrawalModal from '../Components/WithdrawalModal';
 
 const UserInfoScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [clickedButton, setClikedButton] = useState(null);
+    const updateButton = useRef();
+    const withdrawalButton = useRef();
+    
     return (
         <Container style={styles.container}>
             <Content style={styles.content}>
@@ -21,16 +24,20 @@ const UserInfoScreen = () => {
                 <Button 
                     block light
                     style={styles.button}
-                    onPress={() => setModalVisible((prev) => !prev)}
+                    name={"updateBtn"}
+                    ref={updateButton}
+                    onPress={() => {
+                        setClikedButton(updateButton.current.props.name)
+                        setModalVisible((prev) => !prev)
+                    }}
                 >
                     <Text style={styles.buttonText}>정보수정 하기</Text>
                 </Button>
-                <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
-                    <UserInfoModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
-                </ModalComponent>
                 <Button 
                     block light
                     style={styles.button}
+                    name={"withdrawalBtn"}
+                    ref={withdrawalButton }
                     onPress={()=>{
                         Alert.alert(
                             '회원 탈퇴',
@@ -45,6 +52,7 @@ const UserInfoScreen = () => {
                                 {
                                     text: '확인',
                                     onPress: () => {
+                                        setClikedButton(withdrawalButton.current.props.name)
                                         setModalVisible((prev) => !prev)
                                     }
                                 }
@@ -55,7 +63,9 @@ const UserInfoScreen = () => {
                     <Text style={styles.buttonText}>회원 탈퇴</Text>
                 </Button>
                 <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
-                    <WithdrawalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+                    {clickedButton === 'updateBtn' ? 
+                        (<UserInfoModal modalVisible={modalVisible} setModalVisible={setModalVisible} />): 
+                        (<WithdrawalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />)}
                 </ModalComponent>
             </Content>
         </Container>

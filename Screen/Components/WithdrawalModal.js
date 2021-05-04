@@ -1,5 +1,5 @@
 import { Button, Container, Content, Form, Icon, Input, Item, Label, Text } from 'native-base';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
@@ -15,7 +15,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
 
     let dataToSend = {user_password: userPassword};
 
-    fetch('http://192.168.219.100:3001/user/auth-password', {
+    fetch('http://192.168.2.110:3001/user/auth-password', {
         method: 'POST',
         body: dataToSend,
         headers: {
@@ -32,8 +32,8 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
     return(
         <>
             {modalVisible ? (
-                <Container>
-                <Content>
+            <Container style={styles.modalContainer}>
+                <Content style={styles.whiteBox}>
                     <Icon
                         type="AntDesign"
                         name="closecircleo"
@@ -57,3 +57,24 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
 }
 
 export default WithdrawalModal;
+
+const styles = StyleSheet.create({
+    modalContainer: {
+        position: 'relative',
+        flexDirection: 'column',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+        width: '80%',
+        height: '50%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    whiteBox: {
+        alignSelf: 'center',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+})

@@ -25,9 +25,10 @@ const UserInfoModal = ({modalVisible ,setModalVisible}) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
+        console.log(formBody)
 
         // 사용자 정보 수정  API 연결
-        fetch('http://192.168.219.100:3001/user/update', {
+        fetch('http://192.168.2.110:3001/user/update', {
             method: 'PATCH',
             body: formBody,
             headers: {
@@ -45,12 +46,12 @@ const UserInfoModal = ({modalVisible ,setModalVisible}) => {
     return (
         <>
             {modalVisible ? (
-                <Container style={styles.whiteBox}>
-                    <Content style={styles.content}>
+                <Container style={styles.modalContainer}>
+                    <Content style={styles.whiteBox}>
                         <Icon
                             type="AntDesign"
                             name="closecircleo"
-                            style={{fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20}}
+                            // style={styles.Xbutton}
                             onPress={() => {setModalVisible(!modalVisible)}}
                         />
                         <Form onSubmit={ChangeUserInfo}>
@@ -76,15 +77,22 @@ const UserInfoModal = ({modalVisible ,setModalVisible}) => {
 export default UserInfoModal;
 
 const styles = StyleSheet.create({
+    modalContainer: {
+        position: 'relative',
+        flexDirection: 'column',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+        width: '80%',
+        height: '50%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
     whiteBox: {
         alignSelf: 'center',
         width: '100%',
         height: '100%',
         backgroundColor: 'white',
         borderRadius: 10,
-    },
-    content: {
-        flexDirection: 'column',
-        alignContent: 'center' 
     },
 })

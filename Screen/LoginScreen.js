@@ -47,7 +47,7 @@ const LoginScreen = ({navigation}) => {
         formBody = formBody.join('&');
 
         // 사용자 로그인 인증하기
-        fetch('http://192.168.219.100:3001/user/login', {
+        fetch('http://192.168.2.110:3001/user/login', {
             method: 'POST',
             body: formBody,
             headers: {

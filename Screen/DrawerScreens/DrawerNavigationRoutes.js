@@ -10,9 +10,7 @@ import HomeScreen from './HomeScreen';
 import CustomSidebarMenu from '../Components/CustomSidebarMenu';
 import DrawerHeader from '../Components/main/DrawerHeader';
 import SettingsScreen from '../DrawerScreens/SettingsScreen';
-import UserInfoScreen from '../settingScreens/UserInfoScreen'
-import { TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
+import UserInfoScreen from './UserInfoScreen'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

@@ -6,7 +6,8 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
     return (
         <>
             {modalVisible ? (
-                <View style={styles.whiteBox}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.whiteBox}>
                     <View style={styles.head}>
                         <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 80}}>내 주소</Text>
                         <Icon
@@ -30,6 +31,7 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                </View>
             ): null}
         </>
     )
@@ -38,6 +40,17 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
 export default ShowAddressModal;
 
 const styles = StyleSheet.create({
+    modalContainer: {
+        position: 'relative',
+        flexDirection: 'column',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+        width: '80%',
+        height: '60%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
     whiteBox: {
         alignSelf: 'center',
         justifyContent: 'center',
