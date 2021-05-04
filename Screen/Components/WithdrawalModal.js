@@ -36,7 +36,6 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
                 if(responseJson === true) {
                     console.log('사용자 비밀번호 인증 성공')
                     // 회원 탈퇴 로직 성공시
@@ -46,8 +45,8 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                         [{
                             text: '확인',
                             onPress: () => {
-                                navigation.navigate('HomeScreen');
                                 AsyncStorage.clear();
+                                navigation.navigate('HomeScreen');
                             }
                         }]
                     )
