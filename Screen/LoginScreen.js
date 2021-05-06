@@ -65,8 +65,6 @@ const LoginScreen = ({navigation}) => {
                 AsyncStorage.setItem('authorization', responseJson.authorization);
                 navigation.replace('DrawerNavigationRoutes');
             }else {
-                emailInputRef.current.clear();
-                passwordInputRef.current.clear();
                 setErrortext('이메일과 비밀번호를 확인해주세요.');
                 console.log('로그인 실패');
             }
@@ -106,11 +104,10 @@ const LoginScreen = ({navigation}) => {
                                 onChangeText={(UserEmail) =>
                                     setUserEmail(UserEmail)
                                 }
-                                placeholder="이메일" //dummy@abc.com
+                                placeholder="이메일" 
                                 placeholderTextColor="#8b9cb5"
                                 autoCapitalize="none"
                                 keyboardType="email-address"
-                                ref={emailInputRef}
                                 returnKeyType="next"
                                 onSubmitEditing={() =>
                                     passwordInputRef.current &&
@@ -126,7 +123,7 @@ const LoginScreen = ({navigation}) => {
                                 onChangeText={(UserPassword) =>
                                     setUserPassword(UserPassword)
                                 }
-                                placeholder="비밀번호" //12345
+                                placeholder="비밀번호" 
                                 placeholderTextColor="#8b9cb5"
                                 keyboardType="default"
                                 ref={passwordInputRef}

@@ -1,8 +1,15 @@
 import { Icon } from 'native-base';
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => { 
+
+    const copyToClipboard = () => {
+        Clipboard.setString(klaytnAddress);
+        console.log('클립보드 저장')
+    }
+
     return (
         <>
             {modalVisible ? (
@@ -20,8 +27,9 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
                     <Image 
                         style={styles.QR} 
                         source={require("../../Image/hello.png")}/>
-                    <TouchableOpacity style={styles.addressButton}>
+                    <TouchableOpacity style={styles.addressButton} onPress={() => copyToClipboard()}>
                         <Text style={styles.buttonText}>{klaytnAddress}</Text>
+                        <Icon type="Feather" name="clipboard" />
                     </TouchableOpacity>
                     <View style={styles.notice}>
                         <Text style={{color: 'red'}}>- 주의사항1</Text>
@@ -71,6 +79,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     }, 
     addressButton: {
+        flexDirection: 'row',
         marginTop: 10,
         alignSelf: 'center',
         width: '90%',

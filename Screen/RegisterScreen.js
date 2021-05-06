@@ -72,9 +72,6 @@ const RegisterScreen = (props) => {
                 setIsRegistraionSuccess(true);
                 console.log('회원가입 성공');
             }else {
-                emailInputRef.current.clear();
-                passwordInputRef.current.clear();
-                nameInputRef.current.clear();
                 setErrortext(responseJson.error);
             }
         })
@@ -139,7 +136,6 @@ const RegisterScreen = (props) => {
                 <KeyboardAvoidingView enabled>
                 <View style={styles.SectionStyle}>
                     <TextInput
-                        ref={emailInputRef}
                         style={styles.inputStyle}
                         onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                         underlineColorAndroid="#f000"
