@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Form, Icon, Input, Item, Label, Text, View } from 'native-base';
 import {useNavigation} from '@react-navigation/native'
-import React, {useState} from 'react';
+import React, {useState, createRef} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 
 const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
     const [userPassword, setUserPassword] = useState(null);
     const [errortext, setErrortext] = useState(null);
     const navigation = useNavigation();
+    const inputRef = createRef();
 
     //  사용자 비밀번호 인증하기
     const UserWithdrawal = () => {
@@ -54,6 +55,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                     setErrortext(null)
                     setModalVisible(false)
                 } else {
+                    inputRef.current.clear();
                     setErrortext('회원 탈퇴에 실패했습니다. \n 비밀번호를 확인해주세요.')
                 } 
             })
@@ -79,6 +81,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                                 <Item floatingLabel style={styles.inputBox}>
                                     <Label>비밀번호를 입력해주세요.</Label>
                                     <Input
+                                        ref={inputRef}
                                         secureTextEntry={true}
                                         onChangeText={(userPassword) => setUserPassword(userPassword)} />
                                 </Item>

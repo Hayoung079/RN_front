@@ -24,6 +24,7 @@ const RegisterScreen = (props) => {
 
     const nameInputRef = createRef();
     const passwordInputRef = createRef();
+    const emailInputRef = createRef();
 
     const handleSubmitButton = () => {
         setErrortext('');
@@ -71,6 +72,9 @@ const RegisterScreen = (props) => {
                 setIsRegistraionSuccess(true);
                 console.log('회원가입 성공');
             }else {
+                emailInputRef.current.clear();
+                passwordInputRef.current.clear();
+                nameInputRef.current.clear();
                 setErrortext(responseJson.error);
             }
         })
@@ -135,6 +139,7 @@ const RegisterScreen = (props) => {
                 <KeyboardAvoidingView enabled>
                 <View style={styles.SectionStyle}>
                     <TextInput
+                        ref={emailInputRef}
                         style={styles.inputStyle}
                         onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                         underlineColorAndroid="#f000"
@@ -150,6 +155,7 @@ const RegisterScreen = (props) => {
                 </View>
                 <View style={styles.SectionStyle}>
                     <TextInput
+                        ref={passwordInputRef}
                         style={styles.inputStyle}
                         onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                         underlineColorAndroid="#f000"
@@ -166,6 +172,7 @@ const RegisterScreen = (props) => {
                 </View>
                 <View style={styles.SectionStyle}>
                     <TextInput
+                            ref={nameInputRef}
                             style={styles.inputStyle}
                             onChangeText={(UserName) => setUserName(UserName)}
                             underlineColorAndroid="#f000"
