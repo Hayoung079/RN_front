@@ -15,11 +15,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalComponent from '../Components/main/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [userName, setUserName] =useState(null);
     const [klaytnAddress, setklaytnAddress] = useState(null);
-    
+
     const GetUserData = async() => {
         try {
             user_name = await AsyncStorage.getItem('user_name')

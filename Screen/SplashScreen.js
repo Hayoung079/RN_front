@@ -16,21 +16,22 @@ const SplashScreen = ({navigation}) => {
     // ActivityIndicator animation 상태
     const [animating, setAnimating] = useState(true);
     
-
     useEffect(() => {
         // 로딩 3초
         setTimeout(() => {
             setAnimating(false);  
 
-            JWT_Refresh().then(()=>{
-                // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
-                AsyncStorage.getItem('authorization').then((value) => {
-                    console.log('storage-auth : ' + value)
-                    navigation.replace(
-                        value === null ? 'Auth' : 'DrawerNavigationRoutes'
-                    )
-                })  
-            })
+            JWT_Refresh()
+                .then(()=>{
+                    // 스토리지에 저장된 JWT토큰을 API에 보내어 사용자 인증
+                    AsyncStorage.getItem('authorization').then((value) => {
+                        console.log('Splash-storage-auth : ' + value)
+                        navigation.replace(
+                            value === null ? 'Auth' : 'DrawerNavigationRoutes'
+                        )
+                    })  
+                })
+                .catch((error)=> console.log(error))
         }, 3000);
     }, []);
 

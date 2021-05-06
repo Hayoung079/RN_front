@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import { Button, Form, Icon, Input, Item, Label, Text, View } from 'native-base';
+import {useNavigation} from '@react-navigation/native'
 import React, {useState} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 
 const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
     const [userPassword, setUserPassword] = useState(null);
-    const navigation = useNavigation(); 
+    const [errortext, setErrortext] = useState(null);
+    const navigation = useNavigation();
 
     //  사용자 비밀번호 인증하기
     const UserWithdrawal = () => {
@@ -45,21 +46,16 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                         [{
                             text: '확인',
                             onPress: () => {
-                                AsyncStorage.clear();
+                                // AsyncStorage.clear();
                                 navigation.navigate('HomeScreen');
                             }
                         }]
                     )
+                    setErrortext(null)
                     setModalVisible(false)
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-                Alert.alert(
-                    '회원탈퇴',
-                    '회원 탈퇴에 실패했습니다. 비밀번호를 확인해주세요.'
-                )
-                setModalVisible(false);
+                } else {
+                    setErrortext('회원 탈퇴에 실패했습니다. \n 비밀번호를 확인해주세요.')
+                } 
             })
         })
     }
@@ -86,9 +82,12 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
                                         secureTextEntry={true}
                                         onChangeText={(userPassword) => setUserPassword(userPassword)} />
                                 </Item>
-                                <Button info 
-                                    style={styles.button}
-                                    onPress={UserWithdrawal}>
+                                {errortext != '' ? (
+                                    <Text style={styles.errorTextStyle}>
+                                        {errortext}
+                                    </Text>
+                                ) : null}
+                                <Button info style={styles.button}  onPress={UserWithdrawal} >
                                     <Text style={{fontSize: 15}}>확인</Text>
                                 </Button>
                             </Form>
@@ -146,5 +145,11 @@ const styles = StyleSheet.create({
         marginTop: 20, 
         width: 110,
         backgroundColor: 'blue', 
+    },
+    errorTextStyle: {
+        marginTop: 10,
+        color: 'red',
+        textAlign: 'center',
+        fontSize: 14,
     },
 })
