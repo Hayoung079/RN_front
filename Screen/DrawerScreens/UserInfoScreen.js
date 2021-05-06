@@ -16,7 +16,7 @@ const UserInfoScreen = () => {
     const withdrawalButton = useRef();
 
     const GetUserInfo = () => {
-        return AsyncStorage.getItem('authorization').then((value) => {
+        AsyncStorage.getItem('authorization').then((value) => {
             if(value !== null) {
                 // 서버로 보내어 결과값 받아오기
                 fetch('http://192.168.2.110:3001/user/profile', {

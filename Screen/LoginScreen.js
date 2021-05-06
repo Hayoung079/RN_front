@@ -62,8 +62,6 @@ const LoginScreen = ({navigation}) => {
             if(responseJson.authorization) {
                 // 사용자 정보 저장
                 AsyncStorage.setItem('authorization', responseJson.authorization);
-                //  resresponseJson.user_name으로 변경할 것!
-                AsyncStorage.setItem('user_name', '테스터');
                 navigation.replace('DrawerNavigationRoutes');
             }else {
                 setErrortext('이메일과 비밀번호를 확인해주세요.');

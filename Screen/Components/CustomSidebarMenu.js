@@ -10,34 +10,41 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const CustomSidebarMenu = (props) => {
-    // const [userName, setUserName] = useState(null);
+    const [userName, setUserName] = useState('');
 
-    // const GetUserData = async() => {
-    //     try {
-    //         user_name = await AsyncStorage.getItem('user_name')
+    const GetUserName = () => {
+        AsyncStorage.getItem('authorization').then((value) => {
+            if(value !== null) {
+                // 서버로 보내어 결과값 받아오기
+                fetch('http://192.168.2.110:3001/user/profile', {
+                    method: 'GET',
+                    headers: {
+                        'authorization' : value,
+                        'Content-Type' : 'application/x-www-form-urlencoded;charset=UTF-8',
+                    },
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    setUserName(responseJson.user_name);
+                })
+                .catch((err) => console.log(err))
+            }
+        })
+    }
 
-    //         if(user_name !== null) return setUserName(user_name);
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // GetUserData();
-    // console.log(`user_name: ${userName}`)
+    GetUserName()
 
     return (
         <View style={stylesSidebar.sideMenuContainer}>
             <View style={stylesSidebar.profileHeader}>
                 <View style={stylesSidebar.profileHeaderPicCircle}>
                     <Text style={{fontSize: 25, color: '#307ecc'}}>
-                        {"userName".charAt(0)}
+                        {userName.charAt(0)}
                     </Text>
                 </View>
                 <Text style={stylesSidebar.profileHeaderText}>
-                    {"userName"}
+                    {userName}
                 </Text>
             </View>
             <View style={stylesSidebar.profileHeaderLine} />
@@ -45,7 +52,7 @@ const CustomSidebarMenu = (props) => {
             <DrawerContentScrollView {...props}>
                 <DrawerItemList {...props} />
                 <DrawerItem
-                label={({color}) => 
+                label={() => 
                     <Text style={{color: '#d8d8d8'}}>
                         로그아웃
                     </Text>

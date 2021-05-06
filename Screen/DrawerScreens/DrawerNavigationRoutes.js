@@ -86,37 +86,6 @@ const settingScreenStack = ({navigation}) => {
     );
 };
 
-
-// 공지사항 화면 stack
-const NotificationScreenStack = ({navigation}) => {
-    return (
-        <Stack.Navigator
-            initialRouteName="NotificationScreen"
-            screenOptions={{
-            headerLeft: () => (
-                <DrawerHeader navigationProps={navigation} />
-            ),
-            headerStyle: {
-                backgroundColor: '#307ecc', //Set Header color
-            },
-            headerTintColor: '#fff', //Set Header text color
-            headerTitleStyle: {
-                fontWeight: 'bold', //Set Header text style
-            },
-            }}
-        >
-            <Stack.Screen
-                name="NotificationScreen"
-                component={NotificationScreen}
-                options={{
-                    title: '공지사항', //Set Header Title
-                }}
-            />
-        </Stack.Navigator>
-    );
-};
-
-
 // drawer (사이드 메뉴바)
 const DrawerNavigatorRoutes = () => {
     return (
@@ -130,7 +99,7 @@ const DrawerNavigatorRoutes = () => {
                 },
             }}
             screenOptions={{headerShown: false}}
-            drawerContent={CustomSidebarMenu}
+            drawerContent={props => <CustomSidebarMenu {...props} />}
         >
             
             <Drawer.Screen
@@ -139,12 +108,6 @@ const DrawerNavigatorRoutes = () => {
                 component={homeScreenStack}
             />
             
-            <Drawer.Screen
-                name="NotificationScreenStack"
-                options={{drawerLabel: '공지사항'}}
-                component={NotificationScreenStack}
-            />
-
             <Drawer.Screen
                 name="settingScreenStack"
                 options={{drawerLabel: '설정'}}

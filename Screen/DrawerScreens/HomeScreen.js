@@ -17,17 +17,32 @@ import ShowAddressModal from '../Components/ShowAddressModal';
 
 const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [userName, setUserName] =useState(null);
+    const [userName, setUserName] =useState('');
     const [klaytnAddress, setklaytnAddress] = useState(null);
 
     const GetUserData = async() => {
         try {
-            user_name = await AsyncStorage.getItem('user_name')
+            user_name = await AsyncStorage.getItem('authorization').then((value) => {
+                if(value !== null) {
+                    // 서버로 보내어 결과값 받아오기
+                    fetch('http://192.168.2.110:3001/user/profile', {
+                        method: 'GET',
+                        headers: {
+                            'authorization' : value,
+                            'Content-Type' : 'application/x-www-form-urlencoded;charset=UTF-8',
+                        },
+                    })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        setUserName(responseJson.user_name);
+                    })
+                    .catch((err) => console.log(err))
+                }
+            })
             user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
             
-            if(user_name !== null || user_klaytnAddress !== null) {
+            if(user_klaytnAddress !== null) {
                 setklaytnAddress(user_klaytnAddress); 
-                setUserName(user_name);
             }
         } catch (error) {
             console.log(error)
