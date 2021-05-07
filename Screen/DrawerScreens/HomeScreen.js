@@ -19,6 +19,7 @@ import { Icon } from 'native-base';
 const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [userName, setUserName] =useState('');
+    const [LoginUserID, setLoginUserID] = useState(null);
     const [klaytnAddress, setklaytnAddress] = useState(null);
 
     const GetUserData = async() => {
@@ -35,22 +36,57 @@ const HomeScreen = ({navigation}) => {
                     })
                     .then((response) => response.json())
                     .then((responseJson) => {
+                        setLoginUserID(responseJson.ID);
                         setUserName(responseJson.user_name);
                     })
                     .catch((err) => console.log(err))
                 }
             })
 
-            user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
-            if(user_name !== null || user_klaytnAddress !== null) {
-                setklaytnAddress(user_klaytnAddress); 
-            }
+            await AsyncStorage.getItem('klaytn').then((value) => {
+                const KlaytnInfo = JSON.parse(value)
+
+                console.log(KlaytnInfo.user_ID)
+                // console.log('유저아이디 == 클레이튼 아이디 ' + (LoginUserID === KlaytnInfo.user_ID))
+                // console.log(`유저아이디 : ${LoginUserID} 클레이튼 아이디: ${KlaytnInfo.user_ID}`)
+                // if(LoginUserID === KlaytnInfo.user_ID) setklaytnAddress(KlaytnInfo.address)
+            })
         } catch (error) {
             console.log(error)
         }
     }  
     
     GetUserData();
+    
+    // 클레이튼 정보를 담을 배열
+    let klaytnArray = [];
+
+    const createKlaytn = (value) => {
+        fetch('http://192.168.2.110:3001/kas/account', {
+            method: 'POST',
+            headers: {
+                'authorization' : value,
+            },
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            if(responseJson.address) {
+                console.log('지갑 생성 : ' +responseJson.address)
+                console.log('지갑생성 성공')
+                /* 스토리지에 저장 
+                    -  새로운 유저가 지갑을 생성할 때 새로운 배열에 추가하여 저장하기
+                */
+                // 클레이튼 정보
+                let klaytnItems = {'address' : responseJson.address, 'user_ID': responseJson.user_id};
+                klaytnArray.push(klaytnItems);
+                
+                AsyncStorage.setItem('klaytn', JSON.stringify(klaytnArray))
+                setModalVisible((prev) => !prev)
+                Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
+            }
+        })
+        .catch((err) => console.log(err))
+    }
 
     const openModal = () => {
         // 로그인 토큰을 API로 보내기
@@ -68,26 +104,7 @@ const HomeScreen = ({navigation}) => {
                         },
                         {
                             text: '확인',
-                            onPress: () => {
-                                fetch('http://192.168.2.110:3001/kas/account', {
-                                    method: 'POST',
-                                    headers: {
-                                        'authorization' : value,
-                                    },
-                                })
-                                .then((response) => response.json())
-                                .then((responseJson) => {
-                                    if(responseJson.address) {
-                                        console.log('지갑 생성 : ' +responseJson.address)
-                                        console.log('지갑생성 성공')
-                                        // 스토리지에 저장
-                                        AsyncStorage.setItem('klaytnAddress', responseJson.address)
-                                        setModalVisible((prev) => !prev)
-                                        Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
-                                    }
-                                })
-                                .catch((err) => console.log(err))
-                            },
+                            onPress: () => createKlaytn(value),
                         },
                     ],
                     {cancelable: false},
