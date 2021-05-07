@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Container, Content, Text, Thumbnail } from 'native-base';
 import React, {useState, useRef} from 'react';
-import {Alert, StyleSheet} from 'react-native';
+import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import * as ImagePicker from 'react-native-image-picker';
 
 import ModalComponent from '../Components/main/Modal';
 import UpdateUserInfoModal from '../Components/UpdateUserInfoModal';
@@ -12,6 +13,7 @@ const UserInfoScreen = () => {
     const [clickedButton, setClikedButton] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
+    const [userImg, setImageSource] = useState(null);
     const updateButton = useRef();
     const withdrawalButton = useRef();
 
@@ -37,15 +39,51 @@ const UserInfoScreen = () => {
     }
 
     GetUserInfo()
+
+    const pickImg = () => {
+        const options = {
+            title: '프로필 설정',
+            mediaType: 'photo',
+        };
+
+        ImagePicker.launchImageLibrary(options, (response) => {
+            console.log('Response = ', response);
+            
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+              // You can also display the image using data:
+              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+              setImageSource(response.uri); // 저는 여기서 uri 값을 저장 시킵니다 !
+            }
+        });
+    }
     
     return (
         <Container style={styles.container}>
             <Content style={styles.content}>
-                <Thumbnail 
-                    large 
-                    source={require('../../Image/hello.png')} 
-                    style={styles.thumbnail} 
-                />
+                {userImg ? (
+                    <TouchableOpacity onPress={()=>pickImg()}>
+                        <Thumbnail 
+                            large 
+                            source={{uri: userImg}} 
+                            style={{alignSelf: 'center',}} 
+                        />
+                    </TouchableOpacity>
+                )
+                : (
+                    <TouchableOpacity onPress={()=>pickImg()}>
+                        <Thumbnail 
+                            large 
+                            source={require("../../Image/hello.png")} 
+                            style={{alignSelf: 'center',}} 
+                        />
+                    </TouchableOpacity>
+                )}
                 <Text style={styles.userInfo}>{`이메일 : ${userEmail}`}</Text>
                 <Text style={styles.userInfo}>{`이름 : ${userName}`}</Text>
                 <Button 
@@ -111,11 +149,6 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         margin: 20,
-    },
-    thumbnail: {
-        alignSelf: 'center',
-        borderWidth: 1,
-        borderColor: 'gray',
     },
     userInfo: {
         marginTop: 10,

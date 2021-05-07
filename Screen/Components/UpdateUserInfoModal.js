@@ -30,13 +30,13 @@ const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
         // 사용자 정보 수정  API 연결
         AsyncStorage.getItem('authorization').then((value) => {
             fetch('http://192.168.2.110:3001/user/update', {
-            method: 'PATCH',
-            body: formBody,
-            headers: {
-                'authorization' : value,
-                'Content-Type' :
-                'application/x-www-form-urlencoded;charset=UTF-8',
-            },
+                method: 'PATCH',
+                body: formBody,
+                headers: {
+                    'authorization' : value,
+                    'Content-Type' :
+                    'application/x-www-form-urlencoded;charset=UTF-8',
+                },
             })
             .then((response) => response.json())
             .then((responseJson) => {

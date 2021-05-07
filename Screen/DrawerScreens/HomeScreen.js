@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ModalComponent from '../Components/main/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
+import { Icon } from 'native-base';
 
 const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -22,7 +23,7 @@ const HomeScreen = ({navigation}) => {
 
     const GetUserData = async() => {
         try {
-            user_name = await AsyncStorage.getItem('authorization').then((value) => {
+            await AsyncStorage.getItem('authorization').then((value) => {
                 if(value !== null) {
                     // 서버로 보내어 결과값 받아오기
                     fetch('http://192.168.2.110:3001/user/profile', {
@@ -39,8 +40,8 @@ const HomeScreen = ({navigation}) => {
                     .catch((err) => console.log(err))
                 }
             })
+
             user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
-            
             if(user_klaytnAddress !== null) {
                 setklaytnAddress(user_klaytnAddress); 
             }
@@ -145,12 +146,12 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.tokenItems}>
-                    <Text>클레이튼 이미지</Text>
+                    <Image source={require("../../Image/klaytn.png")} style={styles.tokenImage}></Image>
                     <Text style={{paddingLeft: 200}}>0 KLAY{"\n"}( = 0 KRW)</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.tokenItems}>
-                    <Text>플러스 이미지</Text>
-                    <Text style={{paddingLeft: 160}}>토큰을 추가하세요.</Text>
+                    <Icon type='AntDesign' name='pluscircleo' style={styles.tokenImage} />
+                    <Text style={{paddingLeft: 160, marginVertical: 5}}>토큰을 추가하세요.</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.tokenButton}>
                     <Text style={styles.buttonText}>토큰 보내기</Text>
@@ -230,14 +231,20 @@ const styles = StyleSheet.create({
     },
     tokenItems: { 
         flexDirection:'row',
-        alignSelf: 'center',
-        justifyContent: 'center',
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start',
         height: 60,
         width: '95%',
         marginTop: 5,
         marginHorizontal: 10,
         padding: 10,
         backgroundColor: '#e8e8e8',
+    },
+    tokenImage: {
+        width: 30, 
+        height: 30, 
+        marginVertical: 5, 
+        marginLeft: 20
     },
     tokenButton: {
         marginTop: 5,
