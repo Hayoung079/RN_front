@@ -62,6 +62,7 @@ const LoginScreen = ({navigation}) => {
             // 인증 토큰이 있으면
             if(responseJson.authorization) {
                 // 사용자 정보 저장
+                console.log('로그인 성공')
                 AsyncStorage.setItem('authorization', responseJson.authorization);
                 navigation.replace('DrawerNavigationRoutes');
             }else {

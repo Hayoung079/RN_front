@@ -23,7 +23,7 @@ const HomeScreen = ({navigation}) => {
 
     const GetUserData = async() => {
         try {
-            await AsyncStorage.getItem('authorization').then((value) => {
+            user_name = await AsyncStorage.getItem('authorization').then((value) => {
                 if(value !== null) {
                     // 서버로 보내어 결과값 받아오기
                     fetch('http://192.168.2.110:3001/user/profile', {
@@ -42,7 +42,7 @@ const HomeScreen = ({navigation}) => {
             })
 
             user_klaytnAddress = await AsyncStorage.getItem('klaytnAddress')
-            if(user_klaytnAddress !== null) {
+            if(user_name !== null || user_klaytnAddress !== null) {
                 setklaytnAddress(user_klaytnAddress); 
             }
         } catch (error) {
@@ -55,7 +55,7 @@ const HomeScreen = ({navigation}) => {
     const openModal = () => {
         // 로그인 토큰을 API로 보내기
         AsyncStorage.getItem('authorization').then((value) => {
-            if(klaytnAddress == null) {
+            if(klaytnAddress === null) {
                 Alert.alert(
                     '지갑생성',
                     '정말 지갑을 생성하시겠습니끼?',

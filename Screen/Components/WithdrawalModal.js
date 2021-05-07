@@ -39,27 +39,13 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
             .then((responseJson) => {
                 if(responseJson === true) {
                     console.log('사용자 비밀번호 인증 성공')
-                    
-                    // 회원탈퇴
-                    // fetch('http://192.168.2.110:3001/user/delete', {
-                    //     method: 'POST',
-                    //     body: formBody,
-                    //     headers: {
-                    //         'authorization' : value,
-                    //         'Content-Type' :
-                    //         'application/x-www-form-urlencoded;charset=UTF-8',
-                    //     },
-                    // })
-                    // .then((response) => response.json())
-                    // .then((responseJson) => console.log(responseJson))
-
                     Alert.alert(
                         '회원 탈퇴',
                         '성공적으로 탈퇴되었습니다.',
                         [{
                             text: '확인',
                             onPress: () => {
-                                // AsyncStorage.clear();
+                                AsyncStorage.clear();
                                 navigation.navigate('HomeScreen');
                             }
                         }]
