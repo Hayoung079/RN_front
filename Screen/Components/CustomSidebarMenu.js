@@ -16,8 +16,7 @@ const CustomSidebarMenu = (props) => {
     const GetUserName = () => {
         AsyncStorage.getItem('authorization').then((value) => {
             if(value !== null) {
-                // 서버로 보내어 결과값 받아오기
-                fetch('http://192.168.2.110:3001/user/profile', {
+                fetch('http://192.168.219.107:3001/user/profile', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
@@ -40,11 +39,11 @@ const CustomSidebarMenu = (props) => {
             <View style={stylesSidebar.profileHeader}>
                 <View style={stylesSidebar.profileHeaderPicCircle}>
                     <Text style={{fontSize: 25, color: '#307ecc'}}>
-                        {userName.charAt(0)}
+                        {"userName".charAt(0)}
                     </Text>
                 </View>
                 <Text style={stylesSidebar.profileHeaderText}>
-                    {userName}
+                    {"userName"}
                 </Text>
             </View>
             <View style={stylesSidebar.profileHeaderLine} />
@@ -72,8 +71,9 @@ const CustomSidebarMenu = (props) => {
                             {
                                 text: '확인',
                                 onPress: () => {
-                                    AsyncStorage.removeItem('user_name');
-                                    AsyncStorage.removeItem('authorization');
+                                    AsyncStorage.clear()
+                                    // AsyncStorage.removeItem('user_name');
+                                    // AsyncStorage.removeItem('authorization');
                                     props.navigation.replace('Auth');
                                 },
                             },

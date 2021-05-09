@@ -3,7 +3,7 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 
-const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => { 
+const ShowAddressModal = ({modalVisible ,setModalVisible, walletAddress}) => { 
 
     const copyToClipboard = () => {
         Clipboard.setString(klaytnAddress);
@@ -35,7 +35,7 @@ const ShowAddressModal = ({modalVisible ,setModalVisible, klaytnAddress}) => {
                             source={require("../../Image/hello.png")}/>
                         <TouchableOpacity style={styles.addressButton} onPress={() => copyToClipboard() }>
                             <View style={{justifyContent: 'center', alignSelf: 'center', flexDirection: 'row'}}>
-                                <Text style={styles.buttonText}>{klaytnAddress}</Text>
+                                <Text style={styles.buttonText}>{walletAddress}</Text>
                                 <Icon type="Feather" name="clipboard"  style={{color: '#fff', marginVertical: 13, fontSize: 23, marginLeft: 10}} />
                             </View>
                         </TouchableOpacity>
