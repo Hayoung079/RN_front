@@ -16,7 +16,7 @@ const CustomSidebarMenu = (props) => {
     const GetUserName = () => {
         AsyncStorage.getItem('authorization').then((value) => {
             if(value !== null) {
-                fetch('http://192.168.219.107:3001/user/profile', {
+                fetch('http://192.168.2.110:3001/user/profile', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
@@ -39,11 +39,11 @@ const CustomSidebarMenu = (props) => {
             <View style={stylesSidebar.profileHeader}>
                 <View style={stylesSidebar.profileHeaderPicCircle}>
                     <Text style={{fontSize: 25, color: '#307ecc'}}>
-                        {"userName".charAt(0)}
+                        {userName.charAt(0)}
                     </Text>
                 </View>
                 <Text style={stylesSidebar.profileHeaderText}>
-                    {"userName"}
+                    {userName}
                 </Text>
             </View>
             <View style={stylesSidebar.profileHeaderLine} />
@@ -71,9 +71,8 @@ const CustomSidebarMenu = (props) => {
                             {
                                 text: '확인',
                                 onPress: () => {
-                                    AsyncStorage.clear()
-                                    // AsyncStorage.removeItem('user_name');
-                                    // AsyncStorage.removeItem('authorization');
+                                    AsyncStorage.removeItem('user_name');
+                                    AsyncStorage.removeItem('authorization');
                                     props.navigation.replace('Auth');
                                 },
                             },
@@ -107,7 +106,7 @@ const stylesSidebar = StyleSheet.create({
     profileHeaderPicCircle: {
         width: 60,
         height: 60,
-        borderRadius: 60 / 2,
+        borderRadius: 60,
         color: 'white',
         backgroundColor: '#ffffff',
         textAlign: 'center',

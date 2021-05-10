@@ -21,7 +21,7 @@ const UserInfoScreen = () => {
         AsyncStorage.getItem('authorization').then((value) => {
             if(value !== null) {
                 // 서버로 보내어 결과값 받아오기
-                fetch('http://192.168.219.107:3001/user/profile', {
+                fetch('http://192.168.2.110:3001/user/profile', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
@@ -44,6 +44,7 @@ const UserInfoScreen = () => {
         const options = {
             title: '프로필 설정',
             mediaType: 'photo',
+            cameraType: 'back',
         };
 
         ImagePicker.launchImageLibrary(options, (response) => {
@@ -53,12 +54,8 @@ const UserInfoScreen = () => {
                 console.log('User cancelled image picker');
             } else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
             } else {
-              // You can also display the image using data:
-              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-              setImageSource(response.uri); // 저는 여기서 uri 값을 저장 시킵니다 !
+                setImageSource(response.uri); 
             }
         });
     }
@@ -79,7 +76,7 @@ const UserInfoScreen = () => {
                     <TouchableOpacity onPress={()=>pickImg()}>
                         <Thumbnail 
                             large 
-                            source={require("../../Image/hello.png")} 
+                            source={require('../../Image/profile_default.png')} 
                             style={{alignSelf: 'center',}} 
                         />
                     </TouchableOpacity>

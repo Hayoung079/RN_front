@@ -26,7 +26,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
         formBody = formBody.join('&');
         
         AsyncStorage.getItem('authorization').then((value) => {
-            fetch('http://192.168.219.107:3001/user/auth-password', {
+            fetch('http://192.168.2.110:3001/user/auth-password', {
                 method: 'POST',
                 body: formBody,
                 headers: {

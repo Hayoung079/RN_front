@@ -6,7 +6,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 const ShowAddressModal = ({modalVisible ,setModalVisible, walletAddress}) => { 
 
     const copyToClipboard = () => {
-        Clipboard.setString(klaytnAddress);
+        Clipboard.setString(walletAddress);
         console.log('클립보드 저장')
         Toast.show({
             text: '클립보드에 저장되었습니다.',

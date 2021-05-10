@@ -20,14 +20,15 @@ const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [userName, setUserName] =useState('');
     const [LoginUserID, setLoginUserID] = useState(null);
-    const [klaytnInfo, setKlaytnInfo] = useState([{}]);
     const [walletAddress, setWalletAddress] = useState(null);
+
+    const klaytnInfo = [];
 
     const GetUserData = async() => {
         try {
             await AsyncStorage.getItem('authorization').then((value) => {
                 if(value !== null) {
-                    fetch('http://192.168.219.107:3001/user/profile', {
+                    fetch('http://192.168.2.110:3001/user/profile', {
                         method: 'GET',
                         headers: {
                             'authorization' : value,
@@ -47,11 +48,17 @@ const HomeScreen = ({navigation}) => {
                 .then((value) =>{
                     if(value !== null) {
                         const klaytnStore = JSON.parse(value);
-                        console.log(klaytnStore)
 
-                        // for(const[key, value] of Object.entries(klaytnStore)) {
-                            
-                        // }
+                        for(const [key, value] of Object.entries(klaytnStore)) {
+                            const StoredKlaytnID = value.klaytnID;
+                            const StoredKlaytnAddress = value.klaytnAddress;
+
+                            if(LoginUserID === StoredKlaytnID) {
+                                setWalletAddress(StoredKlaytnAddress)
+                            }else {[
+                                setWalletAddress(null)
+                            ]}
+                        }
                     }
                 })
         } catch (error) {
@@ -82,7 +89,7 @@ const HomeScreen = ({navigation}) => {
                     {cancelable: false},
                 );
             }else {
-                fetch('http://192.168.219.107:3001/kas/account/address', {
+                fetch('http://192.168.2.110:3001/kas/account/address', {
                     method: 'GET',
                     headers: {
                         'authorization' : value,
@@ -101,7 +108,7 @@ const HomeScreen = ({navigation}) => {
     };
 
     const createKlaytn = (value) => {
-        fetch('http://192.168.219.107:3001/kas/account', {
+        fetch('http://192.168.2.110:3001/kas/account', {
             method: 'POST',
             headers: {
                 'authorization' : value,
@@ -115,18 +122,16 @@ const HomeScreen = ({navigation}) => {
                 const currentKlaytn = {
                     klaytnID: responseJson.user_id,
                     klaytnAddress: responseJson.address
-                }
-                setKlaytnInfo([...klaytnInfo, currentKlaytn])
-                console.log(`klaytnInfo : `)
-                console.log(klaytnInfo)
-                AsyncStorage.setItem('klaytn', JSON.stringify(klaytnInfo))
-                
+                }  
+                const arrayPlus = [...klaytnInfo, currentKlaytn];
+                AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
                 setModalVisible((prev) => !prev)
                 Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
             }
         })
         .catch((err) => console.log(err))
     };
+
 
     return (
         <ScrollView style={{flex: 1}}>
