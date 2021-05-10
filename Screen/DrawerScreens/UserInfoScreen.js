@@ -6,7 +6,7 @@ import * as ImagePicker from 'react-native-image-picker';
 
 import ModalComponent from '../Components/main/Modal';
 import UpdateUserInfoModal from '../Components/UpdateUserInfoModal';
-import WithdrawalModal from '../Components/WithdrawalModal';
+import AuthPasswordModal from '../Components/AuthPasswordModal';
 
 const UserInfoScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -127,7 +127,7 @@ const UserInfoScreen = () => {
                 <ModalComponent modalVisible={modalVisible} setModalVisible={setModalVisible}>
                     {clickedButton === 'updateBtn' ? 
                         (<UpdateUserInfoModal modalVisible={modalVisible} setModalVisible={setModalVisible} />): 
-                        (<WithdrawalModal modalVisible={modalVisible} setModalVisible={setModalVisible} />)}
+                        (<AuthPasswordModal modalVisible={modalVisible} setModalVisible={setModalVisible} />)}
                 </ModalComponent>
             </Content>
         </Container>

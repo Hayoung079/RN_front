@@ -43,7 +43,7 @@ const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
                 if(responseJson === 1) {
                     console.log('사용자 정보 수정 성공')
                     Alert.alert(
-                        '내 정보 수정',
+                        '내 정보 변경',
                         '성공적으로 변경되었습니다.',
                         [{
                             text: '확인',
@@ -67,7 +67,7 @@ const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.whiteBox}>
                     <View style={styles.head}>
-                            <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 60}}>내 정보 수정</Text>
+                            <Text style={{fontSize: 16, fontWeight: 'bold', marginRight: 60}}>내 정보 변경</Text>
                             <Icon
                                 type="AntDesign"
                                 name="closecircleo"
@@ -76,6 +76,7 @@ const UpdateUserInfoModal = ({modalVisible ,setModalVisible}) => {
                             />
                         </View>
                         <View style={styles.inputArea}>
+                            <Text style={{fontSize: 18, padding: 10, alignSelf: 'center'}}>변경할 정보를 입력해 주세요.</Text>
                             <Form>
                                 <View style={styles.inputBox}>
                                     <Item floatingLabel>
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,
+        paddingTop: 10,
         width: '100%',
         height: '85%',
     },

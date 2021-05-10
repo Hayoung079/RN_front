@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native'
 import React, {useState} from 'react';
 import {StyleSheet, Alert} from 'react-native';
 
-const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
+const AuthPasswordModal = ({modalVisible ,setModalVisible}) => {
     const [userPassword, setUserPassword] = useState(null);
     const [errortext, setErrortext] = useState(null);
     const navigation = useNavigation();
@@ -98,7 +98,7 @@ const WithdrawalModal = ({modalVisible ,setModalVisible}) => {
     )
 }
 
-export default WithdrawalModal;
+export default AuthPasswordModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
