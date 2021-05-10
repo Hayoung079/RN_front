@@ -15,14 +15,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalComponent from '../Components/main/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
 import { Icon } from 'native-base';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [userName, setUserName] =useState('');
     const [LoginUserID, setLoginUserID] = useState(null);
     const [walletAddress, setWalletAddress] = useState(null);
-
-    const klaytnInfo = [];
+    const [klaytnInfo, setKlaytnInfo] = useState([]);
 
     const GetUserData = async() => {
         try {
@@ -44,20 +44,35 @@ const HomeScreen = ({navigation}) => {
                 }
             })
 
+            AsyncStorage.setItem('klaytn', JSON.stringify(klaytnInfo));
+
             await AsyncStorage.getItem('klaytn')
                 .then((value) =>{
                     if(value !== null) {
                         const klaytnStore = JSON.parse(value);
 
-                        for(const [key, value] of Object.entries(klaytnStore)) {
-                            const StoredKlaytnID = value.klaytnID;
-                            const StoredKlaytnAddress = value.klaytnAddress;
+                        for(const [key, value] of Object.entries(klaytnInfo)){
+                            console.log(`klaytnInfo value`)
+                            console.log(value)
+                        }
 
-                            if(LoginUserID === StoredKlaytnID) {
-                                setWalletAddress(StoredKlaytnAddress)
-                            }else {[
-                                setWalletAddress(null)
-                            ]}
+                        for(const [key, value] of Object.entries(klaytnStore)) {
+                            console.log(value)
+                            console.log(klaytnInfo)
+                            // if(klaytnStore !== value){
+                            //     console.log('arrayPlus :')
+                            //     const arrayPlus = [...klaytnInfo, value];
+                            //     console.log(arrayPlus)
+                            //     AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
+                            // }
+                            // const StoredKlaytnID = value.klaytnID;
+                            // const StoredKlaytnAddress = value.klaytnAddress;
+
+                            // if(LoginUserID === StoredKlaytnID) {
+                            //     setWalletAddress(StoredKlaytnAddress)
+                            // }else {[
+                            //     setWalletAddress(null)
+                            // ]}
                         }
                     }
                 })
@@ -124,7 +139,7 @@ const HomeScreen = ({navigation}) => {
                     klaytnAddress: responseJson.address
                 }  
                 const arrayPlus = [...klaytnInfo, currentKlaytn];
-                AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
+                setKlaytnInfo(arrayPlus);
                 setModalVisible((prev) => !prev)
                 Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
             }
