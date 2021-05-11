@@ -1,5 +1,5 @@
 // Import React and Component
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalComponent from '../Components/main/Modal';
@@ -13,7 +13,7 @@ const HomeScreen = ({navigation}) => {
     const [walletAddress, setWalletAddress] = useState(null);
     
     const GetReady = async() => {
-        AsyncStorage.getItem('authorization').then((value) => {
+        await AsyncStorage.getItem('authorization').then((value) => {
             if(value !== null) {
                 fetch('http://192.168.2.110:3001/user/profile', {
                     method: 'GET',
@@ -30,30 +30,51 @@ const HomeScreen = ({navigation}) => {
                 .catch((err) => console.log(err))
             }
         })
+    }; 
+    GetReady()
 
-        AsyncStorage.getItem('klaytn').then((value) =>{
+    const setKlaytn = async(currentKlaytn) => {
+        await AsyncStorage.getItem('klaytn').then((value) => {
             if(value !== null) {
                 const klaytnStorage = JSON.parse(value);
-                console.log(`클레이튼 가져오기`)
-                console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
-                console.log(`======================================`)
-
-                for(const [key, value] of Object.entries(klaytnStorage)) {
-                    const StoredKlaytnID = value.klaytnID;
-                    const StoredKlaytnAddress = value.klaytnAddress;
-                    if(LoginUserID === StoredKlaytnID) {
-                        setWalletAddress(StoredKlaytnAddress)
-                    }else {
-                        setWalletAddress(null)
-                    }
-                }
+                const arrayPlus = [...klaytnStorage, currentKlaytn]
+                AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
+            }else{
+                const klaytnStorage = [];
+                const arrayPlus = [...klaytnStorage, currentKlaytn]
+                AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
             }
         })
     }; 
-    GetReady();
+    
+    const Getklaytn = async() => {
+        useEffect(() => {
+            AsyncStorage.getItem('klaytn').then((value) =>{
+                if(value !== null) {
+                    const klaytnStorage = JSON.parse(value);
+                    console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
 
-    const openModal = () => {
-        AsyncStorage.getItem('authorization').then((value) => {
+                    for(const [key, value] of Object.entries(klaytnStorage)) {
+                        const StoredKlaytnID = value.klaytnID;
+                        const StoredKlaytnAddress = value.klaytnAddress;
+                        
+                        console.log(`로그인: ${LoginUserID}`)
+                        if(LoginUserID === StoredKlaytnID) {
+                            setWalletAddress(StoredKlaytnAddress)
+                            break;
+                        }else {
+                            setWalletAddress(null)
+                        }
+                    }
+                }
+            })
+        },[LoginUserID, walletAddress])
+    };
+    Getklaytn()
+
+
+    const openModal = async() => {
+        await AsyncStorage.getItem('authorization').then((value) => {
             if(walletAddress === null) {
                 Alert.alert(
                     '지갑생성',
@@ -107,19 +128,8 @@ const HomeScreen = ({navigation}) => {
                     klaytnID: responseJson.user_id,
                     klaytnAddress: responseJson.address
                 }  
-                
-                AsyncStorage.getItem('klaytn').then((value) => {
-                    if(value !== null) {
-                        const klaytnStorage = JSON.parse(value);
-                        const arrayPlus = [...klaytnStorage, currentKlaytn]
-                        AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
-                    }else{
-                        const klaytnStorage = [];
-                        const arrayPlus = [...klaytnStorage, currentKlaytn]
-                        AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
-                    }
-                }).then(() => GetReady())
-
+                setKlaytn(currentKlaytn);
+                console.log(walletAddress)
                 setModalVisible((prev) => !prev)
                 Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
             }
