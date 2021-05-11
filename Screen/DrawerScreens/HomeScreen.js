@@ -1,89 +1,58 @@
 // Import React and Component
 import React, { useState } from 'react';
-import {
-    View, 
-    Text, 
-    ScrollView, 
-    StyleSheet, 
-    TouchableOpacity,
-    Image,
-    Alert 
-} from 'react-native';
-
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import ModalComponent from '../Components/main/Modal';
 import ShowAddressModal from '../Components/ShowAddressModal';
 import { Icon } from 'native-base';
-import { launchImageLibrary } from 'react-native-image-picker';
 
 const HomeScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [userName, setUserName] =useState('');
     const [LoginUserID, setLoginUserID] = useState(null);
     const [walletAddress, setWalletAddress] = useState(null);
-    const [klaytnInfo, setKlaytnInfo] = useState([]);
-
-    const GetUserData = async() => {
-        try {
-            await AsyncStorage.getItem('authorization').then((value) => {
-                if(value !== null) {
-                    fetch('http://192.168.2.110:3001/user/profile', {
-                        method: 'GET',
-                        headers: {
-                            'authorization' : value,
-                            'Content-Type' : 'application/x-www-form-urlencoded;charset=UTF-8',
-                        },
-                    })
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                        setLoginUserID(responseJson.ID);
-                        setUserName(responseJson.user_name);
-                    })
-                    .catch((err) => console.log(err))
-                }
-            })
-
-            AsyncStorage.setItem('klaytn', JSON.stringify(klaytnInfo));
-
-            await AsyncStorage.getItem('klaytn')
-                .then((value) =>{
-                    if(value !== null) {
-                        const klaytnStore = JSON.parse(value);
-
-                        for(const [key, value] of Object.entries(klaytnInfo)){
-                            console.log(`klaytnInfo value`)
-                            console.log(value)
-                        }
-
-                        for(const [key, value] of Object.entries(klaytnStore)) {
-                            console.log(value)
-                            console.log(klaytnInfo)
-                            // if(klaytnStore !== value){
-                            //     console.log('arrayPlus :')
-                            //     const arrayPlus = [...klaytnInfo, value];
-                            //     console.log(arrayPlus)
-                            //     AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
-                            // }
-                            // const StoredKlaytnID = value.klaytnID;
-                            // const StoredKlaytnAddress = value.klaytnAddress;
-
-                            // if(LoginUserID === StoredKlaytnID) {
-                            //     setWalletAddress(StoredKlaytnAddress)
-                            // }else {[
-                            //     setWalletAddress(null)
-                            // ]}
-                        }
-                    }
+    
+    const GetReady = async() => {
+        AsyncStorage.getItem('authorization').then((value) => {
+            if(value !== null) {
+                fetch('http://192.168.2.110:3001/user/profile', {
+                    method: 'GET',
+                    headers: {
+                        'authorization' : value,
+                        'Content-Type' : 'application/x-www-form-urlencoded;charset=UTF-8',
+                    },
                 })
-        } catch (error) {
-            console.log(error)
-        }
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    setLoginUserID(responseJson.ID);
+                    setUserName(responseJson.user_name);
+                })
+                .catch((err) => console.log(err))
+            }
+        })
+
+        AsyncStorage.getItem('klaytn').then((value) =>{
+            if(value !== null) {
+                const klaytnStorage = JSON.parse(value);
+                console.log(`클레이튼 가져오기`)
+                console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
+                console.log(`======================================`)
+
+                for(const [key, value] of Object.entries(klaytnStorage)) {
+                    const StoredKlaytnID = value.klaytnID;
+                    const StoredKlaytnAddress = value.klaytnAddress;
+                    if(LoginUserID === StoredKlaytnID) {
+                        setWalletAddress(StoredKlaytnAddress)
+                    }else {
+                        setWalletAddress(null)
+                    }
+                }
+            }
+        })
     }; 
-    GetUserData();
+    GetReady();
 
     const openModal = () => {
-        // 로그인 토큰을 API로 보내기
         AsyncStorage.getItem('authorization').then((value) => {
             if(walletAddress === null) {
                 Alert.alert(
@@ -138,15 +107,25 @@ const HomeScreen = ({navigation}) => {
                     klaytnID: responseJson.user_id,
                     klaytnAddress: responseJson.address
                 }  
-                const arrayPlus = [...klaytnInfo, currentKlaytn];
-                setKlaytnInfo(arrayPlus);
+                
+                AsyncStorage.getItem('klaytn').then((value) => {
+                    if(value !== null) {
+                        const klaytnStorage = JSON.parse(value);
+                        const arrayPlus = [...klaytnStorage, currentKlaytn]
+                        AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
+                    }else{
+                        const klaytnStorage = [];
+                        const arrayPlus = [...klaytnStorage, currentKlaytn]
+                        AsyncStorage.setItem('klaytn', JSON.stringify(arrayPlus));
+                    }
+                }).then(() => GetReady())
+
                 setModalVisible((prev) => !prev)
                 Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
             }
         })
         .catch((err) => console.log(err))
     };
-
 
     return (
         <ScrollView style={{flex: 1}}>
