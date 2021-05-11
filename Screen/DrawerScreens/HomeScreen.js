@@ -47,31 +47,27 @@ const HomeScreen = ({navigation}) => {
         })
     }; 
     
-    const Getklaytn = async() => {
-        useEffect(() => {
-            AsyncStorage.getItem('klaytn').then((value) =>{
-                if(value !== null) {
-                    const klaytnStorage = JSON.parse(value);
-                    console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
+    useEffect(() => {
+        AsyncStorage.getItem('klaytn').then((value) =>{
+            if(value !== null) {
+                const klaytnStorage = JSON.parse(value);
+                console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
 
-                    for(const [key, value] of Object.entries(klaytnStorage)) {
-                        const StoredKlaytnID = value.klaytnID;
-                        const StoredKlaytnAddress = value.klaytnAddress;
-                        
-                        console.log(`로그인: ${LoginUserID}`)
-                        if(LoginUserID === StoredKlaytnID) {
-                            setWalletAddress(StoredKlaytnAddress)
-                            break;
-                        }else {
-                            setWalletAddress(null)
-                        }
+                for(const [key, value] of Object.entries(klaytnStorage)) {
+                    const StoredKlaytnID = value.klaytnID;
+                    const StoredKlaytnAddress = value.klaytnAddress;
+                    
+                    console.log(`로그인: ${LoginUserID}`)
+                    if(LoginUserID === StoredKlaytnID) {
+                        setWalletAddress(StoredKlaytnAddress)
+                        break;
+                    }else {
+                        setWalletAddress(null)
                     }
                 }
-            })
-        },[LoginUserID, walletAddress])
-    };
-    Getklaytn()
-
+            }
+        })
+    },[LoginUserID])
 
     const openModal = async() => {
         await AsyncStorage.getItem('authorization').then((value) => {
@@ -118,23 +114,23 @@ const HomeScreen = ({navigation}) => {
             headers: {
                 'authorization' : value,
             },
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            if(responseJson.address) {
-                console.log('지갑생성 성공 ==>' + responseJson.address)
-                
-                const currentKlaytn = {
-                    klaytnID: responseJson.user_id,
-                    klaytnAddress: responseJson.address
-                }  
-                setKlaytn(currentKlaytn);
-                console.log(walletAddress)
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson.address) {
+                    console.log('지갑생성 성공 ==>' + responseJson.address)
+                    
+                    const currentKlaytn = {
+                        klaytnID: responseJson.user_id,
+                        klaytnAddress: responseJson.address
+                    }  
+                    setKlaytn(currentKlaytn);
+                    navigation.replace('HomeScreen')
+                }
                 setModalVisible((prev) => !prev)
                 Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
-            }
-        })
-        .catch((err) => console.log(err))
+            })
+            .catch((err) => console.log(err))
     };
 
     return (
