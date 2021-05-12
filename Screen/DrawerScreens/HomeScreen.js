@@ -30,6 +30,24 @@ const HomeScreen = ({navigation}) => {
                 .catch((err) => console.log(err))
             }
         })
+
+        await AsyncStorage.getItem('klaytn').then((value) =>{
+            if(value !== null) {
+                const klaytnStorage = JSON.parse(value);
+                console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
+    
+                for(const [key, value] of Object.entries(klaytnStorage)) {
+                    const StoredKlaytnID = value.klaytnID;
+                    const StoredKlaytnAddress = value.klaytnAddress;
+                    
+                    if(LoginUserID === StoredKlaytnID) {
+                        setWalletAddress(StoredKlaytnAddress)
+                        console.log(`월렛 주소 등록 성공`)
+                        break;
+                    }
+                }
+            }
+        })
     }; 
     GetReady()
 
@@ -46,28 +64,6 @@ const HomeScreen = ({navigation}) => {
             }
         })
     }; 
-    
-    useEffect(() => {
-        AsyncStorage.getItem('klaytn').then((value) =>{
-            if(value !== null) {
-                const klaytnStorage = JSON.parse(value);
-                console.log(`klaytnStorage : ${JSON.stringify(klaytnStorage)}`)
-
-                for(const [key, value] of Object.entries(klaytnStorage)) {
-                    const StoredKlaytnID = value.klaytnID;
-                    const StoredKlaytnAddress = value.klaytnAddress;
-                    
-                    console.log(`로그인: ${LoginUserID}`)
-                    if(LoginUserID === StoredKlaytnID) {
-                        setWalletAddress(StoredKlaytnAddress)
-                        break;
-                    }else {
-                        setWalletAddress(null)
-                    }
-                }
-            }
-        })
-    },[LoginUserID])
 
     const openModal = async() => {
         await AsyncStorage.getItem('authorization').then((value) => {
@@ -125,10 +121,9 @@ const HomeScreen = ({navigation}) => {
                         klaytnAddress: responseJson.address
                     }  
                     setKlaytn(currentKlaytn);
-                    navigation.replace('HomeScreen')
+                    setModalVisible((prev) => !prev)
+                    Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
                 }
-                setModalVisible((prev) => !prev)
-                Alert.alert('지갑생성', '지갑을 성공적으로 생성하였습니다.')
             })
             .catch((err) => console.log(err))
     };
