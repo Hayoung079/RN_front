@@ -104,7 +104,10 @@ const DrawerNavigatorRoutes = () => {
             
             <Drawer.Screen
                 name="homeScreenStack"
-                options={{drawerLabel: '홈'}}
+                options={{
+                    drawerLabel: '홈',
+                    unmountOnBlur : true,
+                }}
                 component={homeScreenStack}
             />
             
