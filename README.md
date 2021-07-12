@@ -1,2 +1,1 @@
-# geniecoin_front
-react native
+react native klaytn firebase
